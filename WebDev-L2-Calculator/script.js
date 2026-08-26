@@ -18,3 +18,24 @@ const percentageButton = document.querySelector('[data-action="percentage"]');
 
 const themeToggle = document.getElementById("themeToggle");
 
+
+function appendNumber(number) {
+
+    if (currentValue === "Error") {
+        currentValue = number;
+        shouldResetDisplay = false;
+        updateDisplay();
+        return;
+    }
+
+    if (shouldResetDisplay) {
+        currentValue = number;
+        shouldResetDisplay = false;
+    } else if (currentValue === "0") {
+        currentValue = number;
+    } else {
+        currentValue += number;
+    }
+
+    updateDisplay();
+}
