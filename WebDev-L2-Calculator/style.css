@@ -32,3 +32,36 @@
 
     --transition: 180ms ease;
 }
+
+/*
+   2. Dark Theme
+   */
+
+[data-theme="dark"] {
+    --background: #151313;
+    --calculator-background: #201d1c;
+    --display-background: #181615;
+
+    --text-primary: #f8f5f3;
+    --text-secondary: #a59d98;
+
+    --button-background: #2b2725;
+    --button-hover: #35302e;
+    --button-active: #403a37;
+
+    --function-background: #37312e;
+    --function-hover: #423b37;
+
+    --accent: #d66d56;
+    --accent-hover: #e27c65;
+    --accent-active: #ed8b74;
+
+    --border: rgba(255, 255, 255, 0.06);
+
+    --shadow:
+        0 24px 60px rgba(0, 0, 0, 0.45),
+        0 8px 20px rgba(0, 0, 0, 0.3);
+
+    --button-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.2);
+}
