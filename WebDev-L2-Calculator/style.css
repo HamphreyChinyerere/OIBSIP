@@ -170,3 +170,222 @@ body {
     border-radius: 50%;
     background: var(--accent);
 }
+
+/* 
+   7. Theme Toggle
+   */
+
+.theme-toggle {
+    width: 2.75rem;
+    height: 2.75rem;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid var(--border);
+    border-radius: 50%;
+
+    background: var(--button-background);
+    color: var(--text-primary);
+
+    cursor: pointer;
+
+    transition:
+        background-color var(--transition),
+        color var(--transition),
+        transform var(--transition);
+}
+
+.theme-toggle:hover {
+    background: var(--button-hover);
+    transform: translateY(-2px);
+}
+
+.theme-toggle:active {
+    transform: translateY(0);
+}
+
+.theme-toggle svg {
+    width: 1.15rem;
+    height: 1.15rem;
+}
+
+
+/* 
+   8. Display
+    */
+
+.display {
+    width: 100%;
+    min-height: clamp(7rem, 24vw, 9rem);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    gap: 0.5rem;
+
+    padding: clamp(1.25rem, 5vw, 1.75rem);
+
+    margin-bottom: clamp(1rem, 4vw, 1.5rem);
+
+    background: var(--display-background);
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+
+    overflow: hidden;
+
+    transition:
+        background-color var(--transition),
+        border-color var(--transition);
+}
+
+.previous-value {
+    width: 100%;
+
+    min-height: 1.5rem;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    text-align: right;
+
+    color: var(--text-secondary);
+
+    font-size: clamp(0.9rem, 3vw, 1.1rem);
+    font-weight: 500;
+}
+
+.current-value {
+    width: 100%;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    text-align: right;
+
+    color: var(--text-primary);
+
+    font-size: clamp(2.2rem, 11vw, 3.4rem);
+    font-weight: 700;
+
+    line-height: 1;
+    letter-spacing: -0.05em;
+}
+
+
+/* 
+   9. Keypad
+    */
+
+.keypad {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: clamp(0.55rem, 2vw, 0.8rem);
+}
+
+
+/* 
+   10. Calculator Buttons
+    */
+
+.calculator-button {
+    min-width: 0;
+    aspect-ratio: 1 / 1;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-small);
+
+    background: var(--button-background);
+    color: var(--text-primary);
+
+    font-family: inherit;
+    font-size: clamp(1rem, 4vw, 1.3rem);
+    font-weight: 650;
+
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+
+    box-shadow: var(--button-shadow);
+
+    transition:
+        background-color var(--transition),
+        color var(--transition),
+        transform var(--transition),
+        box-shadow var(--transition);
+}
+
+.calculator-button:hover {
+    background: var(--button-hover);
+    transform: translateY(-2px);
+}
+
+.calculator-button:active {
+    background: var(--button-active);
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+
+/* 
+   11. Function Buttons
+    */
+
+.function-button {
+    background: var(--function-background);
+    color: var(--text-secondary);
+}
+
+.function-button:hover {
+    background: var(--function-hover);
+}
+
+
+/* 
+   12. Operator Buttons
+   */
+
+.operator-button {
+    background: var(--accent);
+    color: #ffffff;
+
+    border-color: transparent;
+}
+
+.operator-button:hover {
+    background: var(--accent-hover);
+}
+
+.operator-button:active {
+    background: var(--accent-active);
+}
+
+
+/* 
+   13. Equals Button
+   */
+
+.equals-button {
+    background: var(--accent);
+    color: #ffffff;
+
+    border-color: transparent;
+}
+
+.equals-button:hover {
+    background: var(--accent-hover);
+}
+
+.equals-button:active {
+    background: var(--accent-active);
+}
