@@ -66,3 +66,70 @@ function addDecimal() {
 
     updateDisplay();
 }
+function chooseOperation(selectedOperation) {
+
+    if (currentValue === "Error") {
+        return;
+    }
+
+    if (operation !== null && !shouldResetDisplay) {
+        calculate();
+    }
+
+    previousValue = currentValue;
+    operation = selectedOperation;
+    shouldResetDisplay = true;
+
+    updateDisplay();
+}
+function calculate() {
+
+    if (operation === null || shouldResetDisplay) {
+        return;
+    }
+
+    const firstNumber = parseFloat(previousValue);
+    const secondNumber = parseFloat(currentValue);
+
+    let result;
+
+    switch (operation) {
+
+        case "add":
+            result = firstNumber + secondNumber;
+            break;
+
+        case "subtract":
+            result = firstNumber - secondNumber;
+            break;
+
+        case "multiply":
+            result = firstNumber * secondNumber;
+            break;
+
+        case "divide":
+
+            if (secondNumber === 0) {
+                currentValue = "Error";
+                previousValue = "";
+                operation = null;
+                shouldResetDisplay = true;
+
+                updateDisplay();
+                return;
+            }
+
+            result = firstNumber / secondNumber;
+            break;
+
+        default:
+            return;
+    }
+
+    currentValue = formatResult(result);
+    previousValue = "";
+    operation = null;
+    shouldResetDisplay = true;
+
+    updateDisplay();
+}
