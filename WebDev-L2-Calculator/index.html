@@ -30,8 +30,206 @@
                     <i data-lucide="moon"></i>
                 </button>
             </haeder>
-            
+
         </section>
+        <section class="display" aria-label="Calculator display">
+
+                <div
+                    class="previous-value"
+                    id="previousValue"
+                    aria-hidden="true"
+                >
+                </div>
+
+                <div
+                    class="current-value"
+                    id="currentValue"
+                    aria-live="polite"
+                >
+                    0
+                </div>
+
+        </section>
+         <section class="keypad" aria-label="Calculator keypad">
+
+                <!-- Row 1 -->
+                <button
+                    class="calculator-button function-button"
+                    data-action="clear"
+                    type="button"
+                >
+                    C
+                </button>
+
+                <button
+                    class="calculator-button function-button"
+                    data-action="toggle-sign"
+                    type="button"
+                >
+                    +/−
+                </button>
+
+                <button
+                    class="calculator-button function-button"
+                    data-action="percentage"
+                    type="button"
+                >
+                    %
+                </button>
+
+                <button
+                    class="calculator-button operator-button"
+                    data-operation="divide"
+                    type="button"
+                    aria-label="Divide"
+                >
+                    ÷
+                </button>
+
+
+                <!-- Row 2 -->
+                <button
+                    class="calculator-button"
+                    data-number="7"
+                    type="button"
+                >
+                    7
+                </button>
+
+                <button
+                    class="calculator-button"
+                    data-number="8"
+                    type="button"
+                >
+                    8
+                </button>
+
+                <button
+                    class="calculator-button"
+                    data-number="9"
+                    type="button"
+                >
+                    9
+                </button>
+
+                <button
+                    class="calculator-button operator-button"
+                    data-operation="multiply"
+                    type="button"
+                    aria-label="Multiply"
+                >
+                    ×
+                </button>
+
+
+                <!-- Row 3 -->
+                <button
+                    class="calculator-button"
+                    data-number="4"
+                    type="button"
+                >
+                    4
+                </button>
+
+                <button
+                    class="calculator-button"
+                    data-number="5"
+                    type="button"
+                >
+                    5
+                </button>
+
+                <button
+                    class="calculator-button"
+                    data-number="6"
+                    type="button"
+                >
+                    6
+                </button>
+
+                <button
+                    class="calculator-button operator-button"
+                    data-operation="subtract"
+                    type="button"
+                    aria-label="Subtract"
+                >
+                    −
+                </button>
+
+
+                <!-- Row 4 -->
+                <button
+                    class="calculator-button"
+                    data-number="1"
+                    type="button"
+                >
+                    1
+                </button>
+
+                <button
+                    class="calculator-button"
+                    data-number="2"
+                    type="button"
+                >
+                    2
+                </button>
+
+                <button
+                    class="calculator-button"
+                    data-number="3"
+                    type="button"
+                >
+                    3
+                </button>
+
+                <button
+                    class="calculator-button operator-button"
+                    data-operation="add"
+                    type="button"
+                    aria-label="Add"
+                >
+                    +
+                </button>
+
+
+                <!-- Row 5 -->
+                <button
+                    class="calculator-button"
+                    data-number="0"
+                    type="button"
+                >
+                    0
+                </button>
+
+                <button
+                    class="calculator-button"
+                    data-action="decimal"
+                    type="button"
+                >
+                    .
+                </button>
+
+                <button
+                    class="calculator-button"
+                    data-action="backspace"
+                    type="button"
+                    aria-label="Backspace"
+                    title="Backspace"
+                >
+                    <i data-lucide="delete"></i>
+                </button>
+
+                <button
+                    class="calculator-button equals-button"
+                    data-action="equals"
+                    type="button"
+                    aria-label="Equals"
+                >
+                    =
+                </button>
+
+            </section>
+
 
 
     </main>
