@@ -235,3 +235,48 @@ signButton.addEventListener("click", toggleSign);
 
 // Percentage
 percentageButton.addEventListener("click", calculatePercentage);
+
+document.addEventListener("keydown", event => {
+
+    if (event.key >= "0" && event.key <= "9") {
+        appendNumber(event.key);
+    }
+
+    if (event.key === ".") {
+        addDecimal();
+    }
+
+    if (event.key === "+") {
+        chooseOperation("add");
+    }
+
+    if (event.key === "-") {
+        chooseOperation("subtract");
+    }
+
+    if (event.key === "*") {
+        chooseOperation("multiply");
+    }
+
+    if (event.key === "/") {
+        event.preventDefault();
+        chooseOperation("divide");
+    }
+
+    if (event.key === "Enter" || event.key === "=") {
+        calculate();
+    }
+
+    if (event.key === "Backspace") {
+        backspace();
+    }
+
+    if (event.key === "Escape") {
+        clearCalculator();
+    }
+
+    if (event.key === "%") {
+        calculatePercentage();
+    }
+
+});
