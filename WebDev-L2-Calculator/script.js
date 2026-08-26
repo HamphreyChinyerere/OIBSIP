@@ -133,3 +133,37 @@ function calculate() {
 
     updateDisplay();
 }
+function formatResult(number) {
+
+    if (!Number.isFinite(number)) {
+        return "Error";
+    }
+
+    const roundedNumber = Math.round((number + Number.EPSILON) * 100000000) / 100000000;
+
+    return roundedNumber.toString();
+}
+function clearCalculator() {
+
+    currentValue = "0";
+    previousValue = "";
+    operation = null;
+    shouldResetDisplay = false;
+
+    updateDisplay();
+}
+function backspace() {
+
+    if (currentValue === "Error" || shouldResetDisplay) {
+        clearCalculator();
+        return;
+    }
+
+    if (currentValue.length === 1) {
+        currentValue = "0";
+    } else {
+        currentValue = currentValue.slice(0, -1);
+    }
+
+    updateDisplay();
+}
