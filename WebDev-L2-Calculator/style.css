@@ -1,0 +1,21 @@
+:root {
+    --background: #f7f3f0;
+    --calculator-background: #ffffff;
+    --display-background: #faf8f6;
+
+    --text-primary: #171515;
+    --text-secondary: #817a76;
+
+    --button-background: #f2eeeb;
+    --button-hover: #e8e2de;
+    --button-active: #ddd5d0;
+
+    --function-background: #e8e0dc;
+    --function-hover: #ddd4cf;
+
+    --accent: #d66d56;
+    --accent-hover: #c55c47;
+    --accent-active: #b84f3c;
+
+    --border: rgba(23, 21, 21, 0.07);
+}
