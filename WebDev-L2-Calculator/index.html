@@ -13,6 +13,7 @@
 </head>
 <body>
     <main class="app">
+        <div >
         <section class="calculator" aria-label="Calculator">
             <haeder class="calculator-header">
                 <div class="brand">
@@ -53,6 +54,23 @@
          <section class="keypad" aria-label="Calculator keypad">
 
                 <!-- Row 1 -->
+                <!-- Memory buttons -->
+                <button class="calculator-button function-button" data-action="memory-clear">
+                    MC
+                </button>
+
+                <button class="calculator-button function-button" data-action="memory-recall">
+                    MR
+                </button>
+
+                <button class="calculator-button function-button" data-action="memory-add">
+                    M+
+                </button>
+
+                <button class="calculator-button function-button" data-action="memory-subtract">
+                    M−
+                </button>
+
                 <button
                     class="calculator-button function-button"
                     data-action="clear"
@@ -229,6 +247,7 @@
                 </button>
 
             </section>
+        </div>
 
 
 
