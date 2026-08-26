@@ -196,6 +196,38 @@ function calculatePercentage() {
 
     updateDisplay();
 }
+
+// Memory functions
+function memoryClear() {
+    memory = 0;
+}
+
+function memoryRecall() {
+    currentValue = memory.toString();
+    shouldResetDisplay = false;
+    updateDisplay();
+}
+
+function memoryAdd() {
+    const number = parseFloat(currentValue);
+
+    if (currentValue === "Error" || Number.isNaN(number)) {
+        return;
+    }
+
+    memory += number;
+}
+
+function memorySubtract() {
+    const number = parseFloat(currentValue);
+
+    if (currentValue === "Error" || Number.isNaN(number)) {
+        return;
+    }
+
+    memory -= number;
+}
+
 // Number buttons
 numberButtons.forEach(button => {
 
@@ -205,6 +237,16 @@ numberButtons.forEach(button => {
 
 });
 
+// Theme toggle
+themeToggle.addEventListener("click", () => {
+    const currentTheme = document.documentElement.getAttribute("data-theme");
+
+    if (currentTheme === "dark") {
+        document.documentElement.removeAttribute("data-theme");
+    } else {
+        document.documentElement.setAttribute("data-theme", "dark");
+    }
+});
 
 // Operation buttons
 operationButtons.forEach(button => {
