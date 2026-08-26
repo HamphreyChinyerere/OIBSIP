@@ -138,3 +138,35 @@ body {
         border-color var(--transition),
         box-shadow var(--transition);
 }
+
+/* 
+   6. Calculator Header
+   */
+
+.calculator-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: clamp(1rem, 4vw, 1.5rem);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+
+    font-size: clamp(0.95rem, 3vw, 1.1rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.brand-dot {
+    width: 0.65rem;
+    height: 0.65rem;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+    background: var(--accent);
+}
