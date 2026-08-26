@@ -167,3 +167,71 @@ function backspace() {
 
     updateDisplay();
 }
+
+function toggleSign() {
+
+    if (currentValue === "0" || currentValue === "Error") {
+        return;
+    }
+
+    currentValue = currentValue.startsWith("-")
+        ? currentValue.slice(1)
+        : "-" + currentValue;
+
+    updateDisplay();
+}
+
+function calculatePercentage() {
+
+    if (currentValue === "Error") {
+        return;
+    }
+
+    const number = parseFloat(currentValue);
+
+    currentValue = (number / 100).toString();
+
+    updateDisplay();
+}
+// Number buttons
+numberButtons.forEach(button => {
+
+    button.addEventListener("click", () => {
+        appendNumber(button.dataset.number);
+    });
+
+});
+
+
+// Operation buttons
+operationButtons.forEach(button => {
+
+    button.addEventListener("click", () => {
+        chooseOperation(button.dataset.operation);
+    });
+
+});
+
+
+// Decimal
+decimalButton.addEventListener("click", addDecimal);
+
+
+// Equals
+equalsButton.addEventListener("click", calculate);
+
+
+// Clear
+clearButton.addEventListener("click", clearCalculator);
+
+
+// Backspace
+backspaceButton.addEventListener("click", backspace);
+
+
+// Positive / Negative
+signButton.addEventListener("click", toggleSign);
+
+
+// Percentage
+percentageButton.addEventListener("click", calculatePercentage);
