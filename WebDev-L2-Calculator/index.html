@@ -1,21 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="A responsive calculator built for the Oasis Infobyte Web Development and Designing Internship.">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="A responsive calculator built for the Oasis Infobyte Web Development and Designing Internship."
+    >
+
     <title>Calculator | OIBSIP</title>
 
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="style.css">
 
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
     <main class="app">
-        <div >
-        <section class="calculator" aria-label="Calculator">
-            <haeder class="calculator-header">
+
+        <!-- ============================= -->
+        <!-- Calculator -->
+        <!-- ============================= -->
+
+        <section
+            class="calculator"
+            aria-label="Calculator"
+        >
+
+            <!-- Calculator Header -->
+            <header class="calculator-header">
+
                 <div class="brand">
                     <span class="brand-dot"></span>
                     <span>Calculator</span>
@@ -30,17 +53,24 @@
                 >
                     <i data-lucide="moon"></i>
                 </button>
-            </haeder>
 
-        </section>
-        <section class="display" aria-label="Calculator display">
+            </header>
+
+
+            <!-- ============================= -->
+            <!-- Display -->
+            <!-- ============================= -->
+
+            <section
+                class="display"
+                aria-label="Calculator display"
+            >
 
                 <div
                     class="previous-value"
                     id="previousValue"
                     aria-hidden="true"
-                >
-                </div>
+                ></div>
 
                 <div
                     class="current-value"
@@ -50,31 +80,68 @@
                     0
                 </div>
 
-        </section>
-         <section class="keypad" aria-label="Calculator keypad">
+            </section>
 
-                <!-- Row 1 -->
-                <!-- Memory buttons -->
-                <button class="calculator-button function-button" data-action="memory-clear">
+
+            <!-- ============================= -->
+            <!-- Keypad -->
+            <!-- ============================= -->
+
+            <section
+                class="keypad"
+                aria-label="Calculator keypad"
+            >
+
+                <!-- ============================= -->
+                <!-- Row 1 - Memory & Functions -->
+                <!-- ============================= -->
+
+                <button
+                    class="calculator-button function-button"
+                    data-action="memory-clear"
+                    type="button"
+                    aria-label="Memory clear"
+                >
                     MC
                 </button>
 
-                <button class="calculator-button function-button" data-action="memory-recall">
+                <button
+                    class="calculator-button function-button"
+                    data-action="memory-recall"
+                    type="button"
+                    aria-label="Memory recall"
+                >
                     MR
                 </button>
 
-                <button class="calculator-button function-button" data-action="memory-add">
+                <button
+                    class="calculator-button function-button"
+                    data-action="memory-add"
+                    type="button"
+                    aria-label="Memory add"
+                >
                     M+
                 </button>
 
-                <button class="calculator-button function-button" data-action="memory-subtract">
+                <button
+                    class="calculator-button function-button"
+                    data-action="memory-subtract"
+                    type="button"
+                    aria-label="Memory subtract"
+                >
                     M−
                 </button>
+
+
+                <!-- ============================= -->
+                <!-- Row 2 - Functions & Divide -->
+                <!-- ============================= -->
 
                 <button
                     class="calculator-button function-button"
                     data-action="clear"
                     type="button"
+                    aria-label="Clear calculator"
                 >
                     C
                 </button>
@@ -83,6 +150,7 @@
                     class="calculator-button function-button"
                     data-action="toggle-sign"
                     type="button"
+                    aria-label="Toggle positive negative"
                 >
                     +/−
                 </button>
@@ -91,6 +159,7 @@
                     class="calculator-button function-button"
                     data-action="percentage"
                     type="button"
+                    aria-label="Percentage"
                 >
                     %
                 </button>
@@ -105,7 +174,10 @@
                 </button>
 
 
-                <!-- Row 2 -->
+                <!-- ============================= -->
+                <!-- Row 3 -->
+                <!-- ============================= -->
+
                 <button
                     class="calculator-button"
                     data-number="7"
@@ -140,7 +212,10 @@
                 </button>
 
 
-                <!-- Row 3 -->
+                <!-- ============================= -->
+                <!-- Row 4 -->
+                <!-- ============================= -->
+
                 <button
                     class="calculator-button"
                     data-number="4"
@@ -175,7 +250,10 @@
                 </button>
 
 
-                <!-- Row 4 -->
+                <!-- ============================= -->
+                <!-- Row 5 -->
+                <!-- ============================= -->
+
                 <button
                     class="calculator-button"
                     data-number="1"
@@ -210,7 +288,10 @@
                 </button>
 
 
-                <!-- Row 5 -->
+                <!-- ============================= -->
+                <!-- Row 6 -->
+                <!-- ============================= -->
+
                 <button
                     class="calculator-button"
                     data-number="0"
@@ -223,6 +304,7 @@
                     class="calculator-button"
                     data-action="decimal"
                     type="button"
+                    aria-label="Decimal point"
                 >
                     .
                 </button>
@@ -247,19 +329,61 @@
                 </button>
 
             </section>
-        </div>
+
+        </section>
 
 
+        <!-- ============================= -->
+        <!-- Calculator History -->
+        <!-- ============================= -->
+
+        <aside
+            class="history-panel"
+            aria-label="Calculator history"
+        >
+
+            <!-- History Header -->
+            <div class="history-header">
+
+                <h2>History</h2>
+
+                <button
+                    class="history-clear"
+                    id="clearHistory"
+                    type="button"
+                    aria-label="Clear calculator history"
+                >
+                    Clear
+                </button>
+
+            </div>
+
+
+            <!-- History Items -->
+            <div
+                class="history-list"
+                id="historyList"
+            >
+
+                <p class="history-empty">
+                    No calculations yet
+                </p>
+
+            </div>
+
+        </aside>
 
     </main>
 
-    <script src="script.js">
 
-    </script>
+    <!-- JavaScript -->
+    <script src="script.js"></script>
 
+    <!-- Initialize Lucide Icons -->
     <script>
         lucide.createIcons();
     </script>
-    
+
 </body>
+
 </html>
