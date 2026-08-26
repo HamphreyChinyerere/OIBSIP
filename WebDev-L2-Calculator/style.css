@@ -389,3 +389,105 @@ body {
 .equals-button:active {
     background: var(--accent-active);
 }
+
+/* 
+   14. Icon Buttons
+   */
+
+.calculator-button svg {
+    width: 1.2em;
+    height: 1.2em;
+
+    stroke-width: 2.2;
+}
+
+
+/*
+   15. Focus Accessibility
+   */
+
+.calculator-button:focus-visible,
+.theme-toggle:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+}
+
+
+/*
+   16. Small Phones
+    */
+
+@media (max-width: 360px) {
+
+    .app {
+        padding: 0.75rem;
+    }
+
+    .calculator {
+        padding: 0.85rem;
+
+        border-radius: 24px;
+    }
+
+    .calculator-header {
+        margin-bottom: 0.85rem;
+    }
+
+    .display {
+        min-height: 6.5rem;
+
+        padding: 1rem;
+
+        margin-bottom: 0.85rem;
+    }
+
+    .keypad {
+        gap: 0.45rem;
+    }
+
+    .calculator-button {
+        border-radius: 12px;
+    }
+}
+
+
+/* 
+   17. Very Short Screens
+   */
+
+@media (max-height: 600px) {
+
+    .app {
+        align-items: flex-start;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    .display {
+        min-height: 5.5rem;
+    }
+
+    .calculator-header {
+        margin-bottom: 0.75rem;
+    }
+
+    .display {
+        margin-bottom: 0.75rem;
+    }
+}
+
+
+/* 
+   18. Reduced Motion
+    */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
