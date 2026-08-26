@@ -18,6 +18,10 @@ const percentageButton = document.querySelector('[data-action="percentage"]');
 
 const themeToggle = document.getElementById("themeToggle");
 
+function updateDisplay() {
+    currentValueElement.textContent = currentValue;
+    previousValueElement.textContent = previousValue;
+}
 
 function appendNumber(number) {
 
@@ -35,6 +39,29 @@ function appendNumber(number) {
         currentValue = number;
     } else {
         currentValue += number;
+    }
+
+    updateDisplay();
+}
+
+function addDecimal() {
+
+    if (currentValue === "Error") {
+        currentValue = "0.";
+        shouldResetDisplay = false;
+        updateDisplay();
+        return;
+    }
+
+    if (shouldResetDisplay) {
+        currentValue = "0.";
+        shouldResetDisplay = false;
+        updateDisplay();
+        return;
+    }
+
+    if (!currentValue.includes(".")) {
+        currentValue += ".";
     }
 
     updateDisplay();
