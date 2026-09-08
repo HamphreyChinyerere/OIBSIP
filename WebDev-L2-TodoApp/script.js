@@ -83,6 +83,37 @@ function restoreTask(taskId) {
     renderTasks();
 }
 
+function deleteTask(taskId) {
+    tasks = tasks.filter(
+        (task) => task.id !== taskId
+    );
+
+    renderTasks();
+}
+
+function createDeleteButton(task) {
+    const deleteButton = document.createElement("button");
+
+    deleteButton.type = "button";
+    deleteButton.className = "task-action delete-button";
+
+    deleteButton.setAttribute(
+        "aria-label",
+        `Delete ${task.text}`
+    );
+
+    deleteButton.innerHTML = `
+        <i data-lucide="trash-2"></i>
+    `;
+
+    deleteButton.addEventListener(
+        "click",
+        () => deleteTask(task.id)
+    );
+
+    return deleteButton;
+}
+
 function renderPendingTasks() {
     const pendingTasks = tasks.filter(
         (task) => !task.completed
@@ -109,6 +140,7 @@ function renderPendingTasks() {
 
         completeButton.type = "button";
         completeButton.className = "task-action complete-button";
+
         completeButton.setAttribute(
             "aria-label",
             `Mark ${task.text} as complete`
@@ -123,7 +155,10 @@ function renderPendingTasks() {
             () => completeTask(task.id)
         );
 
+        const deleteButton = createDeleteButton(task);
+
         taskActions.appendChild(completeButton);
+        taskActions.appendChild(deleteButton);
 
         taskItem.appendChild(taskText);
         taskItem.appendChild(taskActions);
@@ -162,6 +197,7 @@ function renderCompletedTasks() {
 
         restoreButton.type = "button";
         restoreButton.className = "task-action restore-button";
+
         restoreButton.setAttribute(
             "aria-label",
             `Move ${task.text} back to pending`
@@ -176,7 +212,10 @@ function renderCompletedTasks() {
             () => restoreTask(task.id)
         );
 
+        const deleteButton = createDeleteButton(task);
+
         taskActions.appendChild(restoreButton);
+        taskActions.appendChild(deleteButton);
 
         taskItem.appendChild(taskText);
         taskItem.appendChild(taskActions);
