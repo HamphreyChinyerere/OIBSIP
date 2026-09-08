@@ -293,6 +293,45 @@ button {
     overflow-wrap: anywhere;
 }
 
+.task-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-shrink: 0;
+}
+
+.task-action {
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--text-primary);
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.task-action:hover {
+    transform: translateY(-1px);
+    border-color: var(--text-primary);
+}
+
+.task-action svg {
+    width: 17px;
+    height: 17px;
+    stroke-width: 1.8;
+}
+
+.complete-button:hover {
+    background: var(--accent);
+    color: var(--background);
+}
+
 .empty-state {
     min-height: 150px;
     display: flex;
@@ -374,6 +413,11 @@ button {
     .task-item {
         min-height: 58px;
         padding: 0.8rem 0.85rem;
+    }
+
+    .task-action {
+        width: 36px;
+        height: 36px;
     }
 
     .empty-state {
