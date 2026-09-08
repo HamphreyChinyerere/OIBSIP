@@ -55,6 +55,51 @@
 
         </header>
 
+        <section class="task-entry">
+
+            <form
+                class="task-form"
+                id="taskForm"
+            >
+
+                <label
+                    for="taskInput"
+                    class="task-label"
+                >
+                    Add a new task
+                </label>
+
+                <div class="task-input-wrapper">
+
+                    <input
+                        type="text"
+                        id="taskInput"
+                        class="task-input"
+                        placeholder="What needs to be done?"
+                        autocomplete="off"
+                        maxlength="120"
+                    >
+
+                    <button
+                        type="submit"
+                        class="add-task-button"
+                    >
+                        <i data-lucide="plus"></i>
+                        <span>Add Task</span>
+                    </button>
+
+                </div>
+
+                <p
+                    class="form-message"
+                    id="formMessage"
+                    aria-live="polite"
+                ></p>
+
+            </form>
+
+        </section>
+
     </main>
 
     <script src="https://unpkg.com/lucide@latest"></script>
