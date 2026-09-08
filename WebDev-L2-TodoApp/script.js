@@ -130,11 +130,19 @@ function cancelEditingTask() {
     renderTasks();
 }
 
-function saveEditedTask(taskId, editInput) {
+function saveEditedTask(
+    taskId,
+    editInput,
+    editError
+) {
     const updatedText = editInput.value.trim();
 
     if (!updatedText) {
+        editError.textContent =
+            "Task cannot be empty.";
+
         editInput.focus();
+
         return;
     }
 
@@ -226,20 +234,30 @@ function createEditButton(task) {
 
 function createEditContent(task) {
     const editWrapper = document.createElement("div");
+    const editField = document.createElement("div");
     const editInput = document.createElement("input");
+    const editError = document.createElement("p");
     const editActions = document.createElement("div");
     const saveButton = document.createElement("button");
     const cancelButton = document.createElement("button");
 
     editWrapper.className = "task-edit";
+    editField.className = "edit-field";
 
     editInput.type = "text";
     editInput.className = "edit-input";
     editInput.value = task.text;
     editInput.maxLength = 120;
+
     editInput.setAttribute(
         "aria-label",
         `Edit ${task.text}`
+    );
+
+    editError.className = "edit-error";
+    editError.setAttribute(
+        "aria-live",
+        "polite"
     );
 
     saveButton.type = "button";
@@ -270,7 +288,11 @@ function createEditContent(task) {
 
     saveButton.addEventListener(
         "click",
-        () => saveEditedTask(task.id, editInput)
+        () => saveEditedTask(
+            task.id,
+            editInput,
+            editError
+        )
     );
 
     cancelButton.addEventListener(
@@ -278,12 +300,43 @@ function createEditContent(task) {
         cancelEditingTask
     );
 
+    editInput.addEventListener(
+        "input",
+        () => {
+            editError.textContent = "";
+        }
+    );
+
+    editInput.addEventListener(
+        "keydown",
+        (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+
+                saveEditedTask(
+                    task.id,
+                    editInput,
+                    editError
+                );
+            }
+
+            if (event.key === "Escape") {
+                event.preventDefault();
+
+                cancelEditingTask();
+            }
+        }
+    );
+
     editActions.className = "edit-actions";
+
+    editField.appendChild(editInput);
+    editField.appendChild(editError);
 
     editActions.appendChild(saveButton);
     editActions.appendChild(cancelButton);
 
-    editWrapper.appendChild(editInput);
+    editWrapper.appendChild(editField);
     editWrapper.appendChild(editActions);
 
     setTimeout(() => {
@@ -318,12 +371,10 @@ function renderPendingTasks() {
         }
 
         const taskContent = createTaskContent(task);
-
         const taskActions = document.createElement("div");
+        const completeButton = document.createElement("button");
 
         taskActions.className = "task-actions";
-
-        const completeButton = document.createElement("button");
 
         completeButton.type = "button";
         completeButton.className =
@@ -385,12 +436,10 @@ function renderCompletedTasks() {
         }
 
         const taskContent = createTaskContent(task);
-
         const taskActions = document.createElement("div");
+        const restoreButton = document.createElement("button");
 
         taskActions.className = "task-actions";
-
-        const restoreButton = document.createElement("button");
 
         restoreButton.type = "button";
         restoreButton.className =
