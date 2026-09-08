@@ -324,3 +324,160 @@ section h2 {
 
     color: var(--black);
 }
+
+.timeline-section {
+    padding: clamp(5rem, 9vw, 9rem) 0;
+
+    background: var(--white);
+}
+
+
+.timeline {
+    position: relative;
+
+    max-width: 900px;
+
+    margin-top: 2rem;
+}
+
+
+.timeline::before {
+    content: "";
+
+    position: absolute;
+
+    left: 147px;
+    top: 10px;
+    bottom: 10px;
+
+    width: 1px;
+
+    background: #bcbcbc;
+}
+
+
+.timeline-item {
+    position: relative;
+
+    display: grid;
+
+    grid-template-columns:
+        110px
+        50px
+        1fr;
+
+    min-height: 120px;
+}
+
+
+.timeline-year {
+    padding-top: 0.1rem;
+
+    font-family: var(--serif);
+
+    font-size: 1.4rem;
+
+    font-weight: 700;
+}
+
+
+.timeline-marker {
+    position: relative;
+
+    display: flex;
+
+    justify-content: center;
+}
+
+
+.timeline-marker::before {
+    content: "";
+
+    position: relative;
+
+    z-index: 2;
+
+    width: 12px;
+    height: 12px;
+
+    margin-top: 0.5rem;
+
+    border-radius: 50%;
+
+    background: var(--black);
+}
+
+
+.timeline-text {
+    padding-bottom: 2.5rem;
+}
+
+
+.timeline-text h3 {
+    margin-bottom: 0.4rem;
+
+    font-family: var(--serif);
+
+    font-size: 1.2rem;
+}
+
+
+.timeline-text p {
+    max-width: 610px;
+
+    color: #575757;
+
+    font-size: 0.95rem;
+}
+
+
+/* ==========================================
+   RELEASES
+========================================== */
+
+.releases-section {
+    padding: clamp(5rem, 9vw, 9rem) 0;
+
+    background: var(--off-white);
+
+    border-top: 1px solid #dddddd;
+}
+
+
+.releases-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    column-gap: 4rem;
+}
+
+
+.release {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    min-height: 52px;
+
+    border-bottom: 1px solid #d4d4d4;
+
+    font-family: var(--serif);
+
+    font-size: 1rem;
+}
+
+
+.release span:last-child {
+    color: var(--gray);
+
+    font-family: var(--sans);
+
+    font-size: 0.78rem;
+
+    font-weight: 500;
+}
