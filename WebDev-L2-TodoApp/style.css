@@ -375,13 +375,17 @@ button {
 .task-edit {
     width: 100%;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.75rem;
 }
 
-.edit-input {
+.edit-field {
     flex: 1;
     min-width: 0;
+}
+
+.edit-input {
+    width: 100%;
     height: 42px;
     padding: 0 0.85rem;
     border: 1px solid var(--text-primary);
@@ -395,11 +399,19 @@ button {
     box-shadow: 0 0 0 3px rgba(127, 127, 127, 0.14);
 }
 
+.edit-error {
+    min-height: 18px;
+    margin-top: 0.25rem;
+    color: var(--danger);
+    font-size: 0.7rem;
+}
+
 .edit-actions {
     display: flex;
     align-items: center;
     gap: 0.45rem;
     flex-shrink: 0;
+    padding-top: 2px;
 }
 
 .completed-task {
@@ -528,8 +540,8 @@ button {
     }
 
     .task-edit {
-        align-items: stretch;
         flex-direction: column;
+        align-items: stretch;
     }
 
     .edit-input {
@@ -538,6 +550,7 @@ button {
 
     .edit-actions {
         justify-content: flex-end;
+        padding-top: 0;
     }
 
     .empty-state {
