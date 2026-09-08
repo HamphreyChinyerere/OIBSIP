@@ -289,7 +289,25 @@ button {
     border-color: var(--text-secondary);
 }
 
+.task-content {
+    flex: 1;
+    min-width: 0;
+}
+
 .task-text {
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.task-meta {
+    margin-top: 0.25rem;
+    color: var(--text-secondary);
+    font-size: 0.7rem;
+    font-weight: 400;
+} {
     flex: 1;
     min-width: 0;
     color: var(--text-primary);
@@ -357,7 +375,25 @@ button {
     opacity: 0.9;
 }
 
-.completed-task .task-text {
+.completed-task .task-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.task-text {
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.task-meta {
+    margin-top: 0.25rem;
+    color: var(--text-secondary);
+    font-size: 0.7rem;
+    font-weight: 400;
+} {
     color: var(--text-secondary);
     text-decoration: line-through;
     text-decoration-thickness: 1px;
@@ -456,3 +492,4 @@ button {
         min-height: 130px;
     }
 }
+
