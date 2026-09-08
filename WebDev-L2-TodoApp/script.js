@@ -11,6 +11,7 @@ const completedCount = document.getElementById("completedCount");
 
 let currentTheme = "light";
 let tasks = [];
+let editingTaskId = null;
 
 function updateThemeIcon() {
     const iconName = currentTheme === "dark" ? "sun" : "moon";
@@ -83,6 +84,8 @@ function completeTask(taskId) {
     task.completed = true;
     task.completedAt = new Date().toISOString();
 
+    editingTaskId = null;
+
     renderTasks();
 }
 
@@ -98,6 +101,8 @@ function restoreTask(taskId) {
     task.completed = false;
     task.completedAt = null;
 
+    editingTaskId = null;
+
     renderTasks();
 }
 
@@ -105,6 +110,45 @@ function deleteTask(taskId) {
     tasks = tasks.filter(
         (task) => task.id !== taskId
     );
+
+    if (editingTaskId === taskId) {
+        editingTaskId = null;
+    }
+
+    renderTasks();
+}
+
+function startEditingTask(taskId) {
+    editingTaskId = taskId;
+
+    renderTasks();
+}
+
+function cancelEditingTask() {
+    editingTaskId = null;
+
+    renderTasks();
+}
+
+function saveEditedTask(taskId, editInput) {
+    const updatedText = editInput.value.trim();
+
+    if (!updatedText) {
+        editInput.focus();
+        return;
+    }
+
+    const task = tasks.find(
+        (item) => item.id === taskId
+    );
+
+    if (!task) {
+        return;
+    }
+
+    task.text = updatedText;
+
+    editingTaskId = null;
 
     renderTasks();
 }
@@ -157,6 +201,99 @@ function createDeleteButton(task) {
     return deleteButton;
 }
 
+function createEditButton(task) {
+    const editButton = document.createElement("button");
+
+    editButton.type = "button";
+    editButton.className = "task-action edit-button";
+
+    editButton.setAttribute(
+        "aria-label",
+        `Edit ${task.text}`
+    );
+
+    editButton.innerHTML = `
+        <i data-lucide="pencil"></i>
+    `;
+
+    editButton.addEventListener(
+        "click",
+        () => startEditingTask(task.id)
+    );
+
+    return editButton;
+}
+
+function createEditContent(task) {
+    const editWrapper = document.createElement("div");
+    const editInput = document.createElement("input");
+    const editActions = document.createElement("div");
+    const saveButton = document.createElement("button");
+    const cancelButton = document.createElement("button");
+
+    editWrapper.className = "task-edit";
+
+    editInput.type = "text";
+    editInput.className = "edit-input";
+    editInput.value = task.text;
+    editInput.maxLength = 120;
+    editInput.setAttribute(
+        "aria-label",
+        `Edit ${task.text}`
+    );
+
+    saveButton.type = "button";
+    saveButton.className =
+        "task-action save-edit-button";
+
+    saveButton.setAttribute(
+        "aria-label",
+        "Save task"
+    );
+
+    saveButton.innerHTML = `
+        <i data-lucide="check"></i>
+    `;
+
+    cancelButton.type = "button";
+    cancelButton.className =
+        "task-action cancel-edit-button";
+
+    cancelButton.setAttribute(
+        "aria-label",
+        "Cancel editing"
+    );
+
+    cancelButton.innerHTML = `
+        <i data-lucide="x"></i>
+    `;
+
+    saveButton.addEventListener(
+        "click",
+        () => saveEditedTask(task.id, editInput)
+    );
+
+    cancelButton.addEventListener(
+        "click",
+        cancelEditingTask
+    );
+
+    editActions.className = "edit-actions";
+
+    editActions.appendChild(saveButton);
+    editActions.appendChild(cancelButton);
+
+    editWrapper.appendChild(editInput);
+    editWrapper.appendChild(editActions);
+
+    setTimeout(() => {
+        editInput.focus();
+        editInput.select();
+    }, 0);
+
+    return editWrapper;
+}
+
 function renderPendingTasks() {
     const pendingTasks = tasks.filter(
         (task) => !task.completed
@@ -170,6 +307,16 @@ function renderPendingTasks() {
         taskItem.className = "task-item";
         taskItem.dataset.taskId = task.id;
 
+        if (editingTaskId === task.id) {
+            taskItem.appendChild(
+                createEditContent(task)
+            );
+
+            pendingList.appendChild(taskItem);
+
+            return;
+        }
+
         const taskContent = createTaskContent(task);
 
         const taskActions = document.createElement("div");
@@ -179,7 +326,8 @@ function renderPendingTasks() {
         const completeButton = document.createElement("button");
 
         completeButton.type = "button";
-        completeButton.className = "task-action complete-button";
+        completeButton.className =
+            "task-action complete-button";
 
         completeButton.setAttribute(
             "aria-label",
@@ -195,9 +343,11 @@ function renderPendingTasks() {
             () => completeTask(task.id)
         );
 
+        const editButton = createEditButton(task);
         const deleteButton = createDeleteButton(task);
 
         taskActions.appendChild(completeButton);
+        taskActions.appendChild(editButton);
         taskActions.appendChild(deleteButton);
 
         taskItem.appendChild(taskContent);
@@ -224,6 +374,16 @@ function renderCompletedTasks() {
         taskItem.className = "task-item completed-task";
         taskItem.dataset.taskId = task.id;
 
+        if (editingTaskId === task.id) {
+            taskItem.appendChild(
+                createEditContent(task)
+            );
+
+            completedList.appendChild(taskItem);
+
+            return;
+        }
+
         const taskContent = createTaskContent(task);
 
         const taskActions = document.createElement("div");
@@ -233,7 +393,8 @@ function renderCompletedTasks() {
         const restoreButton = document.createElement("button");
 
         restoreButton.type = "button";
-        restoreButton.className = "task-action restore-button";
+        restoreButton.className =
+            "task-action restore-button";
 
         restoreButton.setAttribute(
             "aria-label",
@@ -249,9 +410,11 @@ function renderCompletedTasks() {
             () => restoreTask(task.id)
         );
 
+        const editButton = createEditButton(task);
         const deleteButton = createDeleteButton(task);
 
         taskActions.appendChild(restoreButton);
+        taskActions.appendChild(editButton);
         taskActions.appendChild(deleteButton);
 
         taskItem.appendChild(taskContent);
@@ -278,8 +441,12 @@ function addTask(event) {
     const taskText = taskInput.value.trim();
 
     if (!taskText) {
-        showFormMessage("Enter a task before adding it.");
+        showFormMessage(
+            "Enter a task before adding it."
+        );
+
         taskInput.focus();
+
         return;
     }
 
@@ -289,17 +456,28 @@ function addTask(event) {
 
     taskInput.value = "";
 
-    showFormMessage("Task added successfully.");
+    showFormMessage(
+        "Task added successfully."
+    );
 
     renderTasks();
 
     taskInput.focus();
 }
 
-themeToggle.addEventListener("click", toggleTheme);
+themeToggle.addEventListener(
+    "click",
+    toggleTheme
+);
 
-taskInput.addEventListener("input", clearFormMessage);
+taskInput.addEventListener(
+    "input",
+    clearFormMessage
+);
 
-taskForm.addEventListener("submit", addTask);
+taskForm.addEventListener(
+    "submit",
+    addTask
+);
 
 renderTasks();
