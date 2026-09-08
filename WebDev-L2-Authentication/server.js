@@ -1,12 +1,16 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs/promises");
+const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const session = require("express-session");
 
 const app = express();
 
 const PORT = process.env.PORT || 3000;
+
+const SESSION_DURATION =
+    1000 * 60 * 60 * 2;
 
 const publicDirectory = path.join(
     __dirname,
@@ -18,19 +22,26 @@ const protectedDirectory = path.join(
     "protected"
 );
 
-const usersFile = path.join(
+const dataDirectory = path.join(
     __dirname,
-    "data",
+    "data"
+);
+
+const usersFile = path.join(
+    dataDirectory,
     "users.json"
 );
 
 app.use(
-    express.json()
+    express.json({
+        limit: "20kb"
+    })
 );
 
 app.use(
     express.urlencoded({
-        extended: true
+        extended: true,
+        limit: "20kb"
     })
 );
 
@@ -49,10 +60,7 @@ app.use(
                 process.env.NODE_ENV ===
                 "production",
             maxAge:
-                1000 *
-                60 *
-                60 *
-                2
+                SESSION_DURATION
         }
     })
 );
@@ -66,21 +74,46 @@ app.use(
     )
 );
 
-async function readUsers() {
+async function ensureUsersFile() {
+    await fs.mkdir(
+        dataDirectory,
+        {
+            recursive: true
+        }
+    );
+
     try {
-        const data = await fs.readFile(
+        await fs.access(
+            usersFile
+        );
+    } catch {
+        await fs.writeFile(
+            usersFile,
+            "[]",
+            "utf8"
+        );
+    }
+}
+
+async function readUsers() {
+    await ensureUsersFile();
+
+    const data =
+        await fs.readFile(
             usersFile,
             "utf8"
         );
 
-        const users = JSON.parse(data);
+    const parsed =
+        JSON.parse(data);
 
-        return Array.isArray(users)
-            ? users
-            : [];
-    } catch {
-        return [];
+    if (!Array.isArray(parsed)) {
+        throw new Error(
+            "Invalid users data."
+        );
     }
+
+    return parsed;
 }
 
 async function writeUsers(users) {
@@ -102,8 +135,11 @@ function isValidUsername(username) {
 }
 
 function isValidEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
-        email
+    return (
+        email.length <= 254 &&
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+            email
+        )
     );
 }
 
@@ -111,11 +147,12 @@ function isValidPassword(password) {
     return (
         typeof password === "string" &&
         password.length >= 8 &&
+        password.length <= 128 &&
         /\d/.test(password)
     );
 }
 
-function createSessionUser(user) {
+function createSafeUser(user) {
     return {
         id: user.id,
         username: user.username,
@@ -183,7 +220,9 @@ function requireAuthenticatedPage(
         !request.session ||
         !request.session.user
     ) {
-        return response.redirect("/");
+        return response.redirect(
+            "/"
+        );
     }
 
     next();
@@ -225,6 +264,8 @@ app.post(
             if (
                 !normalizedUsername ||
                 !normalizedEmail ||
+                typeof password !==
+                    "string" ||
                 !password
             ) {
                 return response
@@ -274,7 +315,7 @@ app.post(
                     .json({
                         success: false,
                         message:
-                            "Password must be at least 8 characters and contain a number."
+                            "Password must be 8 to 128 characters and contain at least one number."
                     });
             }
 
@@ -286,8 +327,10 @@ app.post(
                     (user) =>
                         typeof user.username ===
                             "string" &&
-                        user.username.toLowerCase() ===
-                            normalizedUsername.toLowerCase()
+                        user.username
+                            .toLowerCase() ===
+                            normalizedUsername
+                                .toLowerCase()
                 );
 
             if (usernameExists) {
@@ -305,7 +348,8 @@ app.post(
                     (user) =>
                         typeof user.email ===
                             "string" &&
-                        user.email.toLowerCase() ===
+                        user.email
+                            .toLowerCase() ===
                             normalizedEmail
                 );
 
@@ -327,11 +371,7 @@ app.post(
 
             const newUser = {
                 id:
-                    Date.now() +
-                    Math.floor(
-                        Math.random() *
-                        1000
-                    ),
+                    crypto.randomUUID(),
                 username:
                     normalizedUsername,
                 email:
@@ -342,9 +382,13 @@ app.post(
                         .toISOString()
             };
 
-            users.push(newUser);
+            users.push(
+                newUser
+            );
 
-            await writeUsers(users);
+            await writeUsers(
+                users
+            );
 
             return response
                 .status(201)
@@ -353,7 +397,7 @@ app.post(
                     message:
                         "Account created successfully.",
                     user:
-                        createSessionUser(
+                        createSafeUser(
                             newUser
                         )
                 });
@@ -410,13 +454,15 @@ app.post(
                         const username =
                             typeof item.username ===
                                 "string"
-                                ? item.username.toLowerCase()
+                                ? item.username
+                                    .toLowerCase()
                                 : "";
 
                         const email =
                             typeof item.email ===
                                 "string"
-                                ? item.email.toLowerCase()
+                                ? item.email
+                                    .toLowerCase()
                                 : "";
 
                         return (
@@ -462,13 +508,29 @@ app.post(
                 request
             );
 
+            const loggedInAt =
+                new Date();
+
+            const expiresAt =
+                new Date(
+                    loggedInAt.getTime() +
+                    SESSION_DURATION
+                );
+
             request.session.user =
-                createSessionUser(user);
+                createSafeUser(
+                    user
+                );
 
             request.session.loggedInAt =
-                new Date().toISOString();
+                loggedInAt.toISOString();
 
-            await saveSession(request);
+            request.session.expiresAt =
+                expiresAt.toISOString();
+
+            await saveSession(
+                request
+            );
 
             return response
                 .status(200)
@@ -486,61 +548,6 @@ app.post(
                     success: false,
                     message:
                         "Unable to sign in."
-                });
-        }
-    }
-);
-
-app.post(
-    "/api/logout",
-    async (request, response) => {
-        try {
-            if (
-                !request.session ||
-                !request.session.user
-            ) {
-                response.clearCookie(
-                    "lockr.sid"
-                );
-
-                return response
-                    .status(200)
-                    .json({
-                        success: true,
-                        message:
-                            "Already logged out."
-                    });
-            }
-
-            await destroySession(
-                request
-            );
-
-            response.clearCookie(
-                "lockr.sid",
-                {
-                    httpOnly: true,
-                    sameSite: "lax",
-                    secure:
-                        process.env.NODE_ENV ===
-                        "production"
-                }
-            );
-
-            return response
-                .status(200)
-                .json({
-                    success: true,
-                    message:
-                        "Logged out successfully."
-                });
-        } catch {
-            return response
-                .status(500)
-                .json({
-                    success: false,
-                    message:
-                        "Unable to log out."
                 });
         }
     }
@@ -572,8 +579,53 @@ app.get(
                     request.session.user,
                 loggedInAt:
                     request.session
-                        .loggedInAt
+                        .loggedInAt,
+                expiresAt:
+                    request.session
+                        .expiresAt
             });
+    }
+);
+
+app.post(
+    "/api/logout",
+    async (request, response) => {
+        try {
+            if (
+                request.session
+            ) {
+                await destroySession(
+                    request
+                );
+            }
+
+            response.clearCookie(
+                "lockr.sid",
+                {
+                    httpOnly: true,
+                    sameSite: "lax",
+                    secure:
+                        process.env.NODE_ENV ===
+                        "production"
+                }
+            );
+
+            return response
+                .status(200)
+                .json({
+                    success: true,
+                    message:
+                        "Logged out successfully."
+                });
+        } catch {
+            return response
+                .status(500)
+                .json({
+                    success: false,
+                    message:
+                        "Unable to log out."
+                });
+        }
     }
 );
 
@@ -621,11 +673,17 @@ app.use(
     }
 );
 
-app.listen(
-    PORT,
-    () => {
-        console.log(
-            `LOCKR running on http://localhost:${PORT}`
+ensureUsersFile()
+    .then(() => {
+        app.listen(
+            PORT,
+            () => {
+                console.log(
+                    `LOCKR running on http://localhost:${PORT}`
+                );
+            }
         );
-    }
-);
+    })
+    .catch(() => {
+        process.exit(1);
+    });

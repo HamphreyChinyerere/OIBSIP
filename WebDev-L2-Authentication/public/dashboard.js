@@ -46,12 +46,9 @@ const logoutButton =
 const THEME_STORAGE_KEY =
     "lockr-theme";
 
-const SESSION_DURATION =
-    2 * 60 * 60 * 1000;
-
 let currentTheme = "light";
 let logoutLoading = false;
-let sessionStartedAt = null;
+let sessionExpiresAt = null;
 let sessionTimer = null;
 
 function formatSessionTime(value) {
@@ -108,18 +105,15 @@ function formatTimeLeft(milliseconds) {
 }
 
 function updateSessionTimeLeft() {
-    if (!sessionStartedAt) {
+    if (!sessionExpiresAt) {
         sessionTimeLeft.textContent =
             "--";
+
         return;
     }
 
-    const expiresAt =
-        sessionStartedAt.getTime() +
-        SESSION_DURATION;
-
     const remaining =
-        expiresAt -
+        sessionExpiresAt.getTime() -
         Date.now();
 
     sessionTimeLeft.textContent =
@@ -162,9 +156,9 @@ function displaySession(data) {
             data.loggedInAt
         );
 
-    sessionStartedAt =
+    sessionExpiresAt =
         new Date(
-            data.loggedInAt
+            data.expiresAt
         );
 
     updateSessionTimeLeft();
@@ -194,6 +188,7 @@ async function loadSession() {
             window.location.replace(
                 "/"
             );
+
             return;
         }
 
@@ -207,10 +202,13 @@ async function loadSession() {
             window.location.replace(
                 "/"
             );
+
             return;
         }
 
-        displaySession(data);
+        displaySession(
+            data
+        );
     } catch {
         window.location.replace(
             "/"
@@ -259,7 +257,8 @@ function loadTheme() {
             "(prefers-color-scheme: dark)"
         ).matches
     ) {
-        currentTheme = "dark";
+        currentTheme =
+            "dark";
     }
 
     applyTheme();
