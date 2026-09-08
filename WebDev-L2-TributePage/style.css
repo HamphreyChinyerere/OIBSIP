@@ -242,3 +242,85 @@ a {
     color: #a5a5a5;
 }
 
+.section-container {
+    width: min(90%, var(--content-width));
+
+    margin: 0 auto;
+}
+
+
+.section-container.narrow {
+    max-width: 850px;
+}
+
+
+.section-label {
+    margin-bottom: 0.8rem;
+
+    font-size: 0.7rem;
+
+    font-weight: 600;
+
+    letter-spacing: 0.3rem;
+
+    text-transform: uppercase;
+
+    color: var(--gray);
+}
+
+
+section h2 {
+    margin-bottom: 3rem;
+
+    font-family: var(--serif);
+
+    font-size: clamp(2.3rem, 5vw, 4.25rem);
+
+    font-weight: 600;
+
+    line-height: 1.05;
+
+    letter-spacing: -0.035em;
+}
+
+
+/* ==========================================
+   BIOGRAPHY
+========================================== */
+
+.biography {
+    padding: clamp(5rem, 9vw, 9rem) 0;
+
+    background: var(--off-white);
+}
+
+
+.biography-content {
+    display: grid;
+
+    gap: 1.5rem;
+}
+
+
+.biography-content p {
+    font-size: 1rem;
+
+    line-height: 1.9;
+
+    color: #353535;
+}
+
+
+.biography-content p:first-child::first-letter {
+    float: left;
+
+    margin-right: 0.6rem;
+
+    font-family: var(--serif);
+
+    font-size: 4.5rem;
+
+    line-height: 0.8;
+
+    color: var(--black);
+}
