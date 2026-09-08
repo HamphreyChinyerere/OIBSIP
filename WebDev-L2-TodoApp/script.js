@@ -9,20 +9,57 @@ const completedList = document.getElementById("completedList");
 const completedEmpty = document.getElementById("completedEmpty");
 const completedCount = document.getElementById("completedCount");
 
+const TASKS_STORAGE_KEY = "taskflow-tasks";
+
 let currentTheme = "light";
 let tasks = [];
 let editingTaskId = null;
 
-function updateThemeIcon() {
-    const iconName = currentTheme === "dark" ? "sun" : "moon";
+function saveTasks() {
+    localStorage.setItem(
+        TASKS_STORAGE_KEY,
+        JSON.stringify(tasks)
+    );
+}
 
-    themeToggle.innerHTML = `<i data-lucide="${iconName}"></i>`;
+function loadTasks() {
+    const savedTasks = localStorage.getItem(
+        TASKS_STORAGE_KEY
+    );
+
+    if (!savedTasks) {
+        tasks = [];
+        return;
+    }
+
+    try {
+        const parsedTasks = JSON.parse(savedTasks);
+
+        tasks = Array.isArray(parsedTasks)
+            ? parsedTasks
+            : [];
+    } catch {
+        tasks = [];
+    }
+}
+
+function updateThemeIcon() {
+    const iconName =
+        currentTheme === "dark"
+            ? "sun"
+            : "moon";
+
+    themeToggle.innerHTML =
+        `<i data-lucide="${iconName}"></i>`;
 
     lucide.createIcons();
 }
 
 function toggleTheme() {
-    currentTheme = currentTheme === "light" ? "dark" : "light";
+    currentTheme =
+        currentTheme === "light"
+            ? "dark"
+            : "light";
 
     document.documentElement.setAttribute(
         "data-theme",
@@ -82,10 +119,12 @@ function completeTask(taskId) {
     }
 
     task.completed = true;
-    task.completedAt = new Date().toISOString();
+    task.completedAt =
+        new Date().toISOString();
 
     editingTaskId = null;
 
+    saveTasks();
     renderTasks();
 }
 
@@ -103,6 +142,7 @@ function restoreTask(taskId) {
 
     editingTaskId = null;
 
+    saveTasks();
     renderTasks();
 }
 
@@ -115,6 +155,7 @@ function deleteTask(taskId) {
         editingTaskId = null;
     }
 
+    saveTasks();
     renderTasks();
 }
 
@@ -135,7 +176,8 @@ function saveEditedTask(
     editInput,
     editError
 ) {
-    const updatedText = editInput.value.trim();
+    const updatedText =
+        editInput.value.trim();
 
     if (!updatedText) {
         editError.textContent =
@@ -158,21 +200,36 @@ function saveEditedTask(
 
     editingTaskId = null;
 
+    saveTasks();
     renderTasks();
 }
 
 function createTaskContent(task) {
-    const taskContent = document.createElement("div");
-    const taskText = document.createElement("p");
-    const taskMeta = document.createElement("p");
+    const taskContent =
+        document.createElement("div");
 
-    taskContent.className = "task-content";
-    taskText.className = "task-text";
-    taskMeta.className = "task-meta";
+    const taskText =
+        document.createElement("p");
 
-    taskText.textContent = task.text;
+    const taskMeta =
+        document.createElement("p");
 
-    if (task.completed && task.completedAt) {
+    taskContent.className =
+        "task-content";
+
+    taskText.className =
+        "task-text";
+
+    taskMeta.className =
+        "task-meta";
+
+    taskText.textContent =
+        task.text;
+
+    if (
+        task.completed &&
+        task.completedAt
+    ) {
         taskMeta.textContent =
             `Completed ${formatTimestamp(task.completedAt)}`;
     } else {
@@ -187,19 +244,22 @@ function createTaskContent(task) {
 }
 
 function createDeleteButton(task) {
-    const deleteButton = document.createElement("button");
+    const deleteButton =
+        document.createElement("button");
 
-    deleteButton.type = "button";
-    deleteButton.className = "task-action delete-button";
+    deleteButton.type =
+        "button";
+
+    deleteButton.className =
+        "task-action delete-button";
 
     deleteButton.setAttribute(
         "aria-label",
         `Delete ${task.text}`
     );
 
-    deleteButton.innerHTML = `
-        <i data-lucide="trash-2"></i>
-    `;
+    deleteButton.innerHTML =
+        `<i data-lucide="trash-2"></i>`;
 
     deleteButton.addEventListener(
         "click",
@@ -210,19 +270,22 @@ function createDeleteButton(task) {
 }
 
 function createEditButton(task) {
-    const editButton = document.createElement("button");
+    const editButton =
+        document.createElement("button");
 
-    editButton.type = "button";
-    editButton.className = "task-action edit-button";
+    editButton.type =
+        "button";
+
+    editButton.className =
+        "task-action edit-button";
 
     editButton.setAttribute(
         "aria-label",
         `Edit ${task.text}`
     );
 
-    editButton.innerHTML = `
-        <i data-lucide="pencil"></i>
-    `;
+    editButton.innerHTML =
+        `<i data-lucide="pencil"></i>`;
 
     editButton.addEventListener(
         "click",
@@ -233,34 +296,61 @@ function createEditButton(task) {
 }
 
 function createEditContent(task) {
-    const editWrapper = document.createElement("div");
-    const editField = document.createElement("div");
-    const editInput = document.createElement("input");
-    const editError = document.createElement("p");
-    const editActions = document.createElement("div");
-    const saveButton = document.createElement("button");
-    const cancelButton = document.createElement("button");
+    const editWrapper =
+        document.createElement("div");
 
-    editWrapper.className = "task-edit";
-    editField.className = "edit-field";
+    const editField =
+        document.createElement("div");
 
-    editInput.type = "text";
-    editInput.className = "edit-input";
-    editInput.value = task.text;
-    editInput.maxLength = 120;
+    const editInput =
+        document.createElement("input");
+
+    const editError =
+        document.createElement("p");
+
+    const editActions =
+        document.createElement("div");
+
+    const saveButton =
+        document.createElement("button");
+
+    const cancelButton =
+        document.createElement("button");
+
+    editWrapper.className =
+        "task-edit";
+
+    editField.className =
+        "edit-field";
+
+    editInput.type =
+        "text";
+
+    editInput.className =
+        "edit-input";
+
+    editInput.value =
+        task.text;
+
+    editInput.maxLength =
+        120;
 
     editInput.setAttribute(
         "aria-label",
         `Edit ${task.text}`
     );
 
-    editError.className = "edit-error";
+    editError.className =
+        "edit-error";
+
     editError.setAttribute(
         "aria-live",
         "polite"
     );
 
-    saveButton.type = "button";
+    saveButton.type =
+        "button";
+
     saveButton.className =
         "task-action save-edit-button";
 
@@ -269,11 +359,12 @@ function createEditContent(task) {
         "Save task"
     );
 
-    saveButton.innerHTML = `
-        <i data-lucide="check"></i>
-    `;
+    saveButton.innerHTML =
+        `<i data-lucide="check"></i>`;
 
-    cancelButton.type = "button";
+    cancelButton.type =
+        "button";
+
     cancelButton.className =
         "task-action cancel-edit-button";
 
@@ -282,9 +373,8 @@ function createEditContent(task) {
         "Cancel editing"
     );
 
-    cancelButton.innerHTML = `
-        <i data-lucide="x"></i>
-    `;
+    cancelButton.innerHTML =
+        `<i data-lucide="x"></i>`;
 
     saveButton.addEventListener(
         "click",
@@ -328,7 +418,8 @@ function createEditContent(task) {
         }
     );
 
-    editActions.className = "edit-actions";
+    editActions.className =
+        "edit-actions";
 
     editField.appendChild(editInput);
     editField.appendChild(editError);
@@ -348,133 +439,221 @@ function createEditContent(task) {
 }
 
 function renderPendingTasks() {
-    const pendingTasks = tasks.filter(
-        (task) => !task.completed
-    );
+    const pendingTasks =
+        tasks.filter(
+            (task) => !task.completed
+        );
 
     pendingList.innerHTML = "";
 
-    pendingTasks.forEach((task) => {
-        const taskItem = document.createElement("article");
+    pendingTasks.forEach(
+        (task) => {
+            const taskItem =
+                document.createElement(
+                    "article"
+                );
 
-        taskItem.className = "task-item";
-        taskItem.dataset.taskId = task.id;
+            taskItem.className =
+                "task-item";
 
-        if (editingTaskId === task.id) {
-            taskItem.appendChild(
-                createEditContent(task)
+            taskItem.dataset.taskId =
+                task.id;
+
+            if (
+                editingTaskId === task.id
+            ) {
+                taskItem.appendChild(
+                    createEditContent(task)
+                );
+
+                pendingList.appendChild(
+                    taskItem
+                );
+
+                return;
+            }
+
+            const taskContent =
+                createTaskContent(task);
+
+            const taskActions =
+                document.createElement(
+                    "div"
+                );
+
+            const completeButton =
+                document.createElement(
+                    "button"
+                );
+
+            taskActions.className =
+                "task-actions";
+
+            completeButton.type =
+                "button";
+
+            completeButton.className =
+                "task-action complete-button";
+
+            completeButton.setAttribute(
+                "aria-label",
+                `Mark ${task.text} as complete`
             );
 
-            pendingList.appendChild(taskItem);
+            completeButton.innerHTML =
+                `<i data-lucide="check"></i>`;
 
-            return;
+            completeButton.addEventListener(
+                "click",
+                () => completeTask(task.id)
+            );
+
+            const editButton =
+                createEditButton(task);
+
+            const deleteButton =
+                createDeleteButton(task);
+
+            taskActions.appendChild(
+                completeButton
+            );
+
+            taskActions.appendChild(
+                editButton
+            );
+
+            taskActions.appendChild(
+                deleteButton
+            );
+
+            taskItem.appendChild(
+                taskContent
+            );
+
+            taskItem.appendChild(
+                taskActions
+            );
+
+            pendingList.appendChild(
+                taskItem
+            );
         }
+    );
 
-        const taskContent = createTaskContent(task);
-        const taskActions = document.createElement("div");
-        const completeButton = document.createElement("button");
+    pendingCount.textContent =
+        pendingTasks.length;
 
-        taskActions.className = "task-actions";
-
-        completeButton.type = "button";
-        completeButton.className =
-            "task-action complete-button";
-
-        completeButton.setAttribute(
-            "aria-label",
-            `Mark ${task.text} as complete`
-        );
-
-        completeButton.innerHTML = `
-            <i data-lucide="check"></i>
-        `;
-
-        completeButton.addEventListener(
-            "click",
-            () => completeTask(task.id)
-        );
-
-        const editButton = createEditButton(task);
-        const deleteButton = createDeleteButton(task);
-
-        taskActions.appendChild(completeButton);
-        taskActions.appendChild(editButton);
-        taskActions.appendChild(deleteButton);
-
-        taskItem.appendChild(taskContent);
-        taskItem.appendChild(taskActions);
-
-        pendingList.appendChild(taskItem);
-    });
-
-    pendingCount.textContent = pendingTasks.length;
-
-    pendingEmpty.hidden = pendingTasks.length > 0;
+    pendingEmpty.hidden =
+        pendingTasks.length > 0;
 }
 
 function renderCompletedTasks() {
-    const completedTasks = tasks.filter(
-        (task) => task.completed
-    );
+    const completedTasks =
+        tasks.filter(
+            (task) => task.completed
+        );
 
     completedList.innerHTML = "";
 
-    completedTasks.forEach((task) => {
-        const taskItem = document.createElement("article");
+    completedTasks.forEach(
+        (task) => {
+            const taskItem =
+                document.createElement(
+                    "article"
+                );
 
-        taskItem.className = "task-item completed-task";
-        taskItem.dataset.taskId = task.id;
+            taskItem.className =
+                "task-item completed-task";
 
-        if (editingTaskId === task.id) {
-            taskItem.appendChild(
-                createEditContent(task)
+            taskItem.dataset.taskId =
+                task.id;
+
+            if (
+                editingTaskId === task.id
+            ) {
+                taskItem.appendChild(
+                    createEditContent(task)
+                );
+
+                completedList.appendChild(
+                    taskItem
+                );
+
+                return;
+            }
+
+            const taskContent =
+                createTaskContent(task);
+
+            const taskActions =
+                document.createElement(
+                    "div"
+                );
+
+            const restoreButton =
+                document.createElement(
+                    "button"
+                );
+
+            taskActions.className =
+                "task-actions";
+
+            restoreButton.type =
+                "button";
+
+            restoreButton.className =
+                "task-action restore-button";
+
+            restoreButton.setAttribute(
+                "aria-label",
+                `Move ${task.text} back to pending`
             );
 
-            completedList.appendChild(taskItem);
+            restoreButton.innerHTML =
+                `<i data-lucide="rotate-ccw"></i>`;
 
-            return;
+            restoreButton.addEventListener(
+                "click",
+                () => restoreTask(task.id)
+            );
+
+            const editButton =
+                createEditButton(task);
+
+            const deleteButton =
+                createDeleteButton(task);
+
+            taskActions.appendChild(
+                restoreButton
+            );
+
+            taskActions.appendChild(
+                editButton
+            );
+
+            taskActions.appendChild(
+                deleteButton
+            );
+
+            taskItem.appendChild(
+                taskContent
+            );
+
+            taskItem.appendChild(
+                taskActions
+            );
+
+            completedList.appendChild(
+                taskItem
+            );
         }
+    );
 
-        const taskContent = createTaskContent(task);
-        const taskActions = document.createElement("div");
-        const restoreButton = document.createElement("button");
+    completedCount.textContent =
+        completedTasks.length;
 
-        taskActions.className = "task-actions";
-
-        restoreButton.type = "button";
-        restoreButton.className =
-            "task-action restore-button";
-
-        restoreButton.setAttribute(
-            "aria-label",
-            `Move ${task.text} back to pending`
-        );
-
-        restoreButton.innerHTML = `
-            <i data-lucide="rotate-ccw"></i>
-        `;
-
-        restoreButton.addEventListener(
-            "click",
-            () => restoreTask(task.id)
-        );
-
-        const editButton = createEditButton(task);
-        const deleteButton = createDeleteButton(task);
-
-        taskActions.appendChild(restoreButton);
-        taskActions.appendChild(editButton);
-        taskActions.appendChild(deleteButton);
-
-        taskItem.appendChild(taskContent);
-        taskItem.appendChild(taskActions);
-
-        completedList.appendChild(taskItem);
-    });
-
-    completedCount.textContent = completedTasks.length;
-
-    completedEmpty.hidden = completedTasks.length > 0;
+    completedEmpty.hidden =
+        completedTasks.length > 0;
 }
 
 function renderTasks() {
@@ -487,7 +666,8 @@ function renderTasks() {
 function addTask(event) {
     event.preventDefault();
 
-    const taskText = taskInput.value.trim();
+    const taskText =
+        taskInput.value.trim();
 
     if (!taskText) {
         showFormMessage(
@@ -499,7 +679,8 @@ function addTask(event) {
         return;
     }
 
-    const newTask = createTask(taskText);
+    const newTask =
+        createTask(taskText);
 
     tasks.push(newTask);
 
@@ -509,6 +690,7 @@ function addTask(event) {
         "Task added successfully."
     );
 
+    saveTasks();
     renderTasks();
 
     taskInput.focus();
@@ -529,4 +711,5 @@ taskForm.addEventListener(
     addTask
 );
 
+loadTasks();
 renderTasks();
