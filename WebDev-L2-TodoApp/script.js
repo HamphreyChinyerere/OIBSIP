@@ -10,6 +10,7 @@ const completedEmpty = document.getElementById("completedEmpty");
 const completedCount = document.getElementById("completedCount");
 
 const TASKS_STORAGE_KEY = "taskflow-tasks";
+const THEME_STORAGE_KEY = "taskflow-theme";
 
 let currentTheme = "light";
 let tasks = [];
@@ -43,6 +44,33 @@ function loadTasks() {
     }
 }
 
+function loadTheme() {
+    const savedTheme = localStorage.getItem(
+        THEME_STORAGE_KEY
+    );
+
+    if (
+        savedTheme === "dark" ||
+        savedTheme === "light"
+    ) {
+        currentTheme = savedTheme;
+    }
+
+    document.documentElement.setAttribute(
+        "data-theme",
+        currentTheme
+    );
+
+    themeToggle.setAttribute(
+        "aria-label",
+        currentTheme === "dark"
+            ? "Switch to light mode"
+            : "Switch to dark mode"
+    );
+
+    updateThemeIcon();
+}
+
 function updateThemeIcon() {
     const iconName =
         currentTheme === "dark"
@@ -63,6 +91,11 @@ function toggleTheme() {
 
     document.documentElement.setAttribute(
         "data-theme",
+        currentTheme
+    );
+
+    localStorage.setItem(
+        THEME_STORAGE_KEY,
         currentTheme
     );
 
@@ -446,99 +479,87 @@ function renderPendingTasks() {
 
     pendingList.innerHTML = "";
 
-    pendingTasks.forEach(
-        (task) => {
-            const taskItem =
-                document.createElement(
-                    "article"
-                );
+    pendingTasks.forEach((task) => {
+        const taskItem =
+            document.createElement("article");
 
-            taskItem.className =
-                "task-item";
+        taskItem.className =
+            "task-item";
 
-            taskItem.dataset.taskId =
-                task.id;
+        taskItem.dataset.taskId =
+            task.id;
 
-            if (
-                editingTaskId === task.id
-            ) {
-                taskItem.appendChild(
-                    createEditContent(task)
-                );
-
-                pendingList.appendChild(
-                    taskItem
-                );
-
-                return;
-            }
-
-            const taskContent =
-                createTaskContent(task);
-
-            const taskActions =
-                document.createElement(
-                    "div"
-                );
-
-            const completeButton =
-                document.createElement(
-                    "button"
-                );
-
-            taskActions.className =
-                "task-actions";
-
-            completeButton.type =
-                "button";
-
-            completeButton.className =
-                "task-action complete-button";
-
-            completeButton.setAttribute(
-                "aria-label",
-                `Mark ${task.text} as complete`
-            );
-
-            completeButton.innerHTML =
-                `<i data-lucide="check"></i>`;
-
-            completeButton.addEventListener(
-                "click",
-                () => completeTask(task.id)
-            );
-
-            const editButton =
-                createEditButton(task);
-
-            const deleteButton =
-                createDeleteButton(task);
-
-            taskActions.appendChild(
-                completeButton
-            );
-
-            taskActions.appendChild(
-                editButton
-            );
-
-            taskActions.appendChild(
-                deleteButton
-            );
-
+        if (editingTaskId === task.id) {
             taskItem.appendChild(
-                taskContent
+                createEditContent(task)
             );
 
-            taskItem.appendChild(
-                taskActions
-            );
+            pendingList.appendChild(taskItem);
 
-            pendingList.appendChild(
-                taskItem
-            );
+            return;
         }
-    );
+
+        const taskContent =
+            createTaskContent(task);
+
+        const taskActions =
+            document.createElement("div");
+
+        const completeButton =
+            document.createElement("button");
+
+        taskActions.className =
+            "task-actions";
+
+        completeButton.type =
+            "button";
+
+        completeButton.className =
+            "task-action complete-button";
+
+        completeButton.setAttribute(
+            "aria-label",
+            `Mark ${task.text} as complete`
+        );
+
+        completeButton.innerHTML =
+            `<i data-lucide="check"></i>`;
+
+        completeButton.addEventListener(
+            "click",
+            () => completeTask(task.id)
+        );
+
+        const editButton =
+            createEditButton(task);
+
+        const deleteButton =
+            createDeleteButton(task);
+
+        taskActions.appendChild(
+            completeButton
+        );
+
+        taskActions.appendChild(
+            editButton
+        );
+
+        taskActions.appendChild(
+            deleteButton
+        );
+
+        taskItem.appendChild(
+            taskContent
+        );
+
+        taskItem.appendChild(
+            taskActions
+        );
+
+        pendingList.appendChild(
+            taskItem
+        );
+    });
 
     pendingCount.textContent =
         pendingTasks.length;
@@ -555,99 +576,87 @@ function renderCompletedTasks() {
 
     completedList.innerHTML = "";
 
-    completedTasks.forEach(
-        (task) => {
-            const taskItem =
-                document.createElement(
-                    "article"
-                );
+    completedTasks.forEach((task) => {
+        const taskItem =
+            document.createElement("article");
 
-            taskItem.className =
-                "task-item completed-task";
+        taskItem.className =
+            "task-item completed-task";
 
-            taskItem.dataset.taskId =
-                task.id;
+        taskItem.dataset.taskId =
+            task.id;
 
-            if (
-                editingTaskId === task.id
-            ) {
-                taskItem.appendChild(
-                    createEditContent(task)
-                );
-
-                completedList.appendChild(
-                    taskItem
-                );
-
-                return;
-            }
-
-            const taskContent =
-                createTaskContent(task);
-
-            const taskActions =
-                document.createElement(
-                    "div"
-                );
-
-            const restoreButton =
-                document.createElement(
-                    "button"
-                );
-
-            taskActions.className =
-                "task-actions";
-
-            restoreButton.type =
-                "button";
-
-            restoreButton.className =
-                "task-action restore-button";
-
-            restoreButton.setAttribute(
-                "aria-label",
-                `Move ${task.text} back to pending`
-            );
-
-            restoreButton.innerHTML =
-                `<i data-lucide="rotate-ccw"></i>`;
-
-            restoreButton.addEventListener(
-                "click",
-                () => restoreTask(task.id)
-            );
-
-            const editButton =
-                createEditButton(task);
-
-            const deleteButton =
-                createDeleteButton(task);
-
-            taskActions.appendChild(
-                restoreButton
-            );
-
-            taskActions.appendChild(
-                editButton
-            );
-
-            taskActions.appendChild(
-                deleteButton
-            );
-
+        if (editingTaskId === task.id) {
             taskItem.appendChild(
-                taskContent
+                createEditContent(task)
             );
 
-            taskItem.appendChild(
-                taskActions
-            );
+            completedList.appendChild(taskItem);
 
-            completedList.appendChild(
-                taskItem
-            );
+            return;
         }
-    );
+
+        const taskContent =
+            createTaskContent(task);
+
+        const taskActions =
+            document.createElement("div");
+
+        const restoreButton =
+            document.createElement("button");
+
+        taskActions.className =
+            "task-actions";
+
+        restoreButton.type =
+            "button";
+
+        restoreButton.className =
+            "task-action restore-button";
+
+        restoreButton.setAttribute(
+            "aria-label",
+            `Move ${task.text} back to pending`
+        );
+
+        restoreButton.innerHTML =
+            `<i data-lucide="rotate-ccw"></i>`;
+
+        restoreButton.addEventListener(
+            "click",
+            () => restoreTask(task.id)
+        );
+
+        const editButton =
+            createEditButton(task);
+
+        const deleteButton =
+            createDeleteButton(task);
+
+        taskActions.appendChild(
+            restoreButton
+        );
+
+        taskActions.appendChild(
+            editButton
+        );
+
+        taskActions.appendChild(
+            deleteButton
+        );
+
+        taskItem.appendChild(
+            taskContent
+        );
+
+        taskItem.appendChild(
+            taskActions
+        );
+
+        completedList.appendChild(
+            taskItem
+        );
+    });
 
     completedCount.textContent =
         completedTasks.length;
@@ -711,5 +720,6 @@ taskForm.addEventListener(
     addTask
 );
 
+loadTheme();
 loadTasks();
 renderTasks();
