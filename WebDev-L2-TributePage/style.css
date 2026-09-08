@@ -284,9 +284,7 @@ section h2 {
 }
 
 
-/* ==========================================
-   BIOGRAPHY
-========================================== */
+
 
 .biography {
     padding: clamp(5rem, 9vw, 9rem) 0;
@@ -431,9 +429,6 @@ section h2 {
 }
 
 
-/* ==========================================
-   RELEASES
-========================================== */
 
 .releases-section {
     padding: clamp(5rem, 9vw, 9rem) 0;
@@ -480,4 +475,271 @@ section h2 {
     font-size: 0.78rem;
 
     font-weight: 500;
+}
+
+.quote-section {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 500px;
+
+    padding: 5rem 1.5rem;
+
+    background: var(--dark);
+
+    color: var(--white);
+
+    text-align: center;
+}
+
+
+.quote-wrapper {
+    max-width: 850px;
+}
+
+
+.quote-wrapper blockquote {
+    font-family: var(--serif);
+
+    font-size: clamp(2rem, 5vw, 4.5rem);
+
+    font-style: italic;
+
+    line-height: 1.25;
+}
+
+
+.quote-line {
+    width: 50px;
+    height: 1px;
+
+    margin: 2.5rem auto 1.5rem;
+
+    background: #777777;
+}
+
+
+.quote-wrapper p {
+    font-size: 0.7rem;
+
+    font-weight: 600;
+
+    letter-spacing: 0.25rem;
+
+    text-transform: uppercase;
+}
+
+
+.quote-wrapper span {
+    display: block;
+
+    margin-top: 0.4rem;
+
+    color: #999999;
+
+    font-size: 0.72rem;
+
+    letter-spacing: 0.18rem;
+}
+
+
+
+footer {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 2rem;
+
+    padding: 2rem 5%;
+
+    background: var(--black);
+
+    color: #777777;
+
+    border-top: 1px solid #262626;
+
+    font-size: 0.72rem;
+}
+
+
+
+@media (max-width: 900px) {
+
+    .hero {
+        min-height: 850px;
+    }
+
+
+    .hero-image {
+        object-position: 65% center;
+    }
+
+
+    .hero-overlay {
+        background:
+            linear-gradient(
+                90deg,
+                rgba(0, 0, 0, 0.98) 0%,
+                rgba(0, 0, 0, 0.88) 45%,
+                rgba(0, 0, 0, 0.25) 100%
+            );
+    }
+
+
+    .hero h1 {
+        font-size: clamp(4rem, 12vw, 6.5rem);
+    }
+
+
+    .releases-grid {
+        column-gap: 2rem;
+    }
+
+}
+
+
+
+
+@media (max-width: 650px) {
+
+    .hero {
+        min-height: 100svh;
+
+        align-items: flex-end;
+
+        padding-bottom: 6rem;
+    }
+
+
+    .hero-image {
+        object-position: 70% center;
+    }
+
+
+    .hero-overlay {
+        background:
+            linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 1) 0%,
+                rgba(0, 0, 0, 0.93) 30%,
+                rgba(0, 0, 0, 0.35) 75%,
+                rgba(0, 0, 0, 0.2) 100%
+            );
+    }
+
+
+    .hero-content {
+        width: 88%;
+    }
+
+
+    .hero h1 {
+        font-size: clamp(3.4rem, 17vw, 5rem);
+    }
+
+
+    .hero-description {
+        max-width: 300px;
+
+        font-size: 1.1rem;
+    }
+
+
+    .hero-quote {
+        display: none;
+    }
+
+
+    section h2 {
+        margin-bottom: 2.25rem;
+    }
+
+
+    .timeline::before {
+        left: 85px;
+    }
+
+
+    .timeline-item {
+        grid-template-columns:
+            70px
+            30px
+            1fr;
+
+        min-height: 130px;
+    }
+
+
+    .timeline-year {
+        font-size: 1rem;
+    }
+
+
+    .timeline-marker::before {
+        width: 10px;
+        height: 10px;
+    }
+
+
+    .timeline-text {
+        padding-left: 0.25rem;
+    }
+
+
+    .timeline-text h3 {
+        font-size: 1.05rem;
+    }
+
+
+    .timeline-text p {
+        font-size: 0.88rem;
+    }
+
+
+    .releases-grid {
+        grid-template-columns: 1fr;
+
+        column-gap: 0;
+    }
+
+
+    footer {
+        flex-direction: column;
+
+        gap: 0.5rem;
+
+        text-align: center;
+    }
+
+}
+
+
+
+@media (max-width: 360px) {
+
+    .hero h1 {
+        font-size: 3rem;
+    }
+
+
+    .timeline::before {
+        left: 72px;
+    }
+
+
+    .timeline-item {
+        grid-template-columns:
+            58px
+            28px
+            1fr;
+    }
+
+
+    .release {
+        font-size: 0.9rem;
+    }
+
 }
