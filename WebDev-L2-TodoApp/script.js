@@ -43,8 +43,24 @@ function createTask(taskText) {
         id: Date.now(),
         text: taskText,
         completed: false,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        completedAt: null
     };
+}
+
+function formatTimestamp(timestamp) {
+    if (!timestamp) {
+        return "";
+    }
+
+    const date = new Date(timestamp);
+
+    return date.toLocaleString([], {
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+    });
 }
 
 function showFormMessage(message) {
@@ -65,6 +81,7 @@ function completeTask(taskId) {
     }
 
     task.completed = true;
+    task.completedAt = new Date().toISOString();
 
     renderTasks();
 }
@@ -79,6 +96,7 @@ function restoreTask(taskId) {
     }
 
     task.completed = false;
+    task.completedAt = null;
 
     renderTasks();
 }
@@ -89,6 +107,31 @@ function deleteTask(taskId) {
     );
 
     renderTasks();
+}
+
+function createTaskContent(task) {
+    const taskContent = document.createElement("div");
+    const taskText = document.createElement("p");
+    const taskMeta = document.createElement("p");
+
+    taskContent.className = "task-content";
+    taskText.className = "task-text";
+    taskMeta.className = "task-meta";
+
+    taskText.textContent = task.text;
+
+    if (task.completed && task.completedAt) {
+        taskMeta.textContent =
+            `Completed ${formatTimestamp(task.completedAt)}`;
+    } else {
+        taskMeta.textContent =
+            `Created ${formatTimestamp(task.createdAt)}`;
+    }
+
+    taskContent.appendChild(taskText);
+    taskContent.appendChild(taskMeta);
+
+    return taskContent;
 }
 
 function createDeleteButton(task) {
@@ -127,10 +170,7 @@ function renderPendingTasks() {
         taskItem.className = "task-item";
         taskItem.dataset.taskId = task.id;
 
-        const taskText = document.createElement("p");
-
-        taskText.className = "task-text";
-        taskText.textContent = task.text;
+        const taskContent = createTaskContent(task);
 
         const taskActions = document.createElement("div");
 
@@ -160,7 +200,7 @@ function renderPendingTasks() {
         taskActions.appendChild(completeButton);
         taskActions.appendChild(deleteButton);
 
-        taskItem.appendChild(taskText);
+        taskItem.appendChild(taskContent);
         taskItem.appendChild(taskActions);
 
         pendingList.appendChild(taskItem);
@@ -184,10 +224,7 @@ function renderCompletedTasks() {
         taskItem.className = "task-item completed-task";
         taskItem.dataset.taskId = task.id;
 
-        const taskText = document.createElement("p");
-
-        taskText.className = "task-text";
-        taskText.textContent = task.text;
+        const taskContent = createTaskContent(task);
 
         const taskActions = document.createElement("div");
 
@@ -217,7 +254,7 @@ function renderCompletedTasks() {
         taskActions.appendChild(restoreButton);
         taskActions.appendChild(deleteButton);
 
-        taskItem.appendChild(taskText);
+        taskItem.appendChild(taskContent);
         taskItem.appendChild(taskActions);
 
         completedList.appendChild(taskItem);
@@ -231,6 +268,7 @@ function renderCompletedTasks() {
 function renderTasks() {
     renderPendingTasks();
     renderCompletedTasks();
+
     lucide.createIcons();
 }
 
