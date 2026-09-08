@@ -11,10 +11,26 @@
 
     <meta
         name="description"
-        content="LOCKR protected user dashboard."
+        content="LOCKR protected account dashboard."
     >
 
     <title>LOCKR | Dashboard</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
 
     <link
         rel="stylesheet"
@@ -24,9 +40,13 @@
 
 <body>
 
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+    <div class="background-glow glow-three"></div>
+
     <div class="dashboard-shell">
 
-        <header class="dashboard-header">
+        <header class="dashboard-header glass-panel">
 
             <a
                 class="dashboard-brand"
@@ -68,12 +88,12 @@
 
         <main class="dashboard-main">
 
-            <section class="welcome-section">
+            <section class="dashboard-heading">
 
                 <div>
 
-                    <p class="eyebrow">
-                        Protected Dashboard
+                    <p class="section-label">
+                        Account Overview
                     </p>
 
                     <h1>
@@ -83,8 +103,8 @@
                         </span>
                     </h1>
 
-                    <p class="welcome-description">
-                        Your LOCKR account is authenticated and this page is protected by your active session.
+                    <p>
+                        Review your identity, security status and current authenticated session.
                     </p>
 
                 </div>
@@ -102,9 +122,21 @@
 
             <section class="dashboard-grid">
 
-                <article class="profile-card dashboard-card">
+                <article class="identity-card glass-panel">
 
-                    <div class="profile-header">
+                    <div class="card-top">
+
+                        <div>
+
+                            <p class="section-label">
+                                Identity
+                            </p>
+
+                            <h2>
+                                Account profile
+                            </h2>
+
+                        </div>
 
                         <div
                             class="profile-avatar"
@@ -113,83 +145,55 @@
                             U
                         </div>
 
-                        <div>
+                    </div>
 
-                            <p class="card-label">
-                                Account
-                            </p>
+                    <div class="profile-name">
 
-                            <h2 id="profileUsername">
-                                Loading account
-                            </h2>
+                        <h3 id="profileUsername">
+                            Loading account
+                        </h3>
 
-                            <p id="profileEmail">
-                                Loading email
-                            </p>
-
-                        </div>
+                        <p id="profileEmail">
+                            Loading email
+                        </p>
 
                     </div>
 
-                    <div class="profile-details">
+                    <div class="account-details">
 
-                        <div class="detail-row">
+                        <div class="account-row">
 
-                            <div class="detail-icon">
-                                <i data-lucide="user"></i>
-                            </div>
+                            <span>
+                                Username
+                            </span>
 
-                            <div>
-
-                                <span>
-                                    Username
-                                </span>
-
-                                <strong id="accountUsername">
-                                    Loading
-                                </strong>
-
-                            </div>
+                            <strong id="accountUsername">
+                                Loading
+                            </strong>
 
                         </div>
 
-                        <div class="detail-row">
+                        <div class="account-row">
 
-                            <div class="detail-icon">
-                                <i data-lucide="mail"></i>
-                            </div>
+                            <span>
+                                Email address
+                            </span>
 
-                            <div>
-
-                                <span>
-                                    Email address
-                                </span>
-
-                                <strong id="accountEmail">
-                                    Loading
-                                </strong>
-
-                            </div>
+                            <strong id="accountEmail">
+                                Loading
+                            </strong>
 
                         </div>
 
-                        <div class="detail-row">
+                        <div class="account-row">
 
-                            <div class="detail-icon">
-                                <i data-lucide="fingerprint"></i>
-                            </div>
+                            <span>
+                                Account ID
+                            </span>
 
-                            <div>
-
-                                <span>
-                                    Account ID
-                                </span>
-
-                                <strong id="accountId">
-                                    Loading
-                                </strong>
-
-                            </div>
+                            <strong id="accountId">
+                                Loading
+                            </strong>
 
                         </div>
 
@@ -197,43 +201,45 @@
 
                 </article>
 
-                <article class="security-card dashboard-card">
+                <article class="security-card glass-panel">
 
-                    <div class="card-heading">
+                    <div class="card-top">
 
                         <div>
 
-                            <p class="card-label">
+                            <p class="section-label">
                                 Security
                             </p>
 
                             <h2>
-                                Account protection
+                                Protection status
                             </h2>
 
                         </div>
 
-                        <div class="heading-icon">
+                        <div class="feature-icon">
                             <i data-lucide="shield-check"></i>
                         </div>
 
                     </div>
 
-                    <div class="security-list">
+                    <div class="security-items">
 
                         <div class="security-item">
 
-                            <i data-lucide="key-round"></i>
+                            <span class="security-icon">
+                                <i data-lucide="key-round"></i>
+                            </span>
 
                             <div>
 
                                 <strong>
-                                    Password protected
+                                    Password secured
                                 </strong>
 
-                                <span>
-                                    Your password is stored as a secure bcrypt hash.
-                                </span>
+                                <p>
+                                    Credentials are protected using bcrypt hashing.
+                                </p>
 
                             </div>
 
@@ -241,35 +247,19 @@
 
                         <div class="security-item">
 
-                            <i data-lucide="cookie"></i>
+                            <span class="security-icon">
+                                <i data-lucide="cookie"></i>
+                            </span>
 
                             <div>
 
                                 <strong>
-                                    Secure session
+                                    Server session
                                 </strong>
 
-                                <span>
-                                    Your authenticated session is managed by the server.
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                        <div class="security-item">
-
-                            <i data-lucide="lock-keyhole"></i>
-
-                            <div>
-
-                                <strong>
-                                    Protected route
-                                </strong>
-
-                                <span>
-                                    This dashboard cannot be accessed without authentication.
-                                </span>
+                                <p>
+                                    Authentication is maintained through a protected session cookie.
+                                </p>
 
                             </div>
 
@@ -279,38 +269,118 @@
 
                 </article>
 
-                <article class="session-card dashboard-card">
+                <article class="mini-card glass-panel">
 
-                    <div class="card-heading">
+                    <div class="mini-icon">
+                        <i data-lucide="lock-keyhole"></i>
+                    </div>
+
+                    <p>
+                        Route Access
+                    </p>
+
+                    <strong>
+                        Protected
+                    </strong>
+
+                    <span>
+                        Authentication required
+                    </span>
+
+                </article>
+
+                <article class="mini-card glass-panel">
+
+                    <div class="mini-icon">
+                        <i data-lucide="fingerprint"></i>
+                    </div>
+
+                    <p>
+                        Identity
+                    </p>
+
+                    <strong>
+                        Verified
+                    </strong>
+
+                    <span>
+                        Session linked to account
+                    </span>
+
+                </article>
+
+                <article class="mini-card glass-panel">
+
+                    <div class="mini-icon">
+                        <i data-lucide="shield"></i>
+                    </div>
+
+                    <p>
+                        Password
+                    </p>
+
+                    <strong>
+                        Hashed
+                    </strong>
+
+                    <span>
+                        Plain text is not stored
+                    </span>
+
+                </article>
+
+                <article class="mini-card glass-panel">
+
+                    <div class="mini-icon">
+                        <i data-lucide="activity"></i>
+                    </div>
+
+                    <p>
+                        Access Level
+                    </p>
+
+                    <strong>
+                        User
+                    </strong>
+
+                    <span>
+                        Authenticated account
+                    </span>
+
+                </article>
+
+                <article class="session-card glass-panel">
+
+                    <div class="card-top">
 
                         <div>
 
-                            <p class="card-label">
-                                Session
+                            <p class="section-label">
+                                Current Session
                             </p>
 
                             <h2>
-                                Current access
+                                Authentication details
                             </h2>
 
                         </div>
 
-                        <div class="heading-icon">
-                            <i data-lucide="activity"></i>
+                        <div class="feature-icon">
+                            <i data-lucide="clock-3"></i>
                         </div>
 
                     </div>
 
-                    <div class="session-information">
+                    <div class="session-details">
 
                         <div>
 
                             <span>
-                                Authentication
+                                Status
                             </span>
 
                             <strong>
-                                Verified
+                                Active
                             </strong>
 
                         </div>
@@ -318,7 +388,7 @@
                         <div>
 
                             <span>
-                                Logged in
+                                Signed in
                             </span>
 
                             <strong id="loggedInAt">
@@ -330,15 +400,39 @@
                         <div>
 
                             <span>
-                                Access level
+                                Session type
                             </span>
 
                             <strong>
-                                Protected User
+                                Server managed
                             </strong>
 
                         </div>
 
+                    </div>
+
+                </article>
+
+                <article class="access-card glass-panel">
+
+                    <div>
+
+                        <p class="section-label">
+                            Protected Access
+                        </p>
+
+                        <h2>
+                            Your private area is secured.
+                        </h2>
+
+                        <p>
+                            Signing out destroys your active server session and blocks direct dashboard access.
+                        </p>
+
+                    </div>
+
+                    <div class="access-symbol">
+                        <i data-lucide="badge-check"></i>
                     </div>
 
                 </article>
@@ -349,13 +443,13 @@
 
         <footer class="dashboard-footer">
 
-            <p>
+            <span>
                 LOCKR Authentication System
-            </p>
+            </span>
 
-            <p>
+            <span>
                 OIBSIP Web Development Level 2
-            </p>
+            </span>
 
         </footer>
 

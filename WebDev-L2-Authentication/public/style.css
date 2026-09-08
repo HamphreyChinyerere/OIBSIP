@@ -1,35 +1,39 @@
 :root {
-    --background: #f4f1f8;
-    --surface: #ffffff;
-    --surface-soft: #f9f7fc;
-    --text-primary: #19151f;
-    --text-secondary: #746d7d;
-    --border: #ded8e6;
-    --purple: #4c1d95;
-    --purple-dark: #3b0764;
-    --purple-soft: #eee7f8;
-    --success: #176b45;
-    --success-soft: #ecfdf3;
-    --danger: #b42318;
-    --danger-soft: #fff1f0;
-    --radius-xl: 28px;
-    --radius-md: 12px;
+    --background: #f6f1ed;
+    --surface: rgba(255, 255, 255, 0.62);
+    --surface-strong: rgba(255, 255, 255, 0.82);
+    --surface-soft: rgba(255, 247, 240, 0.68);
+    --text-primary: #21140d;
+    --text-secondary: #79685e;
+    --border: rgba(146, 68, 18, 0.14);
+    --orange: #c64b0a;
+    --orange-bright: #f97316;
+    --orange-dark: #913408;
+    --orange-soft: rgba(249, 115, 22, 0.1);
+    --success: #347353;
+    --success-soft: rgba(52, 115, 83, 0.1);
+    --danger: #b72d20;
+    --danger-soft: rgba(183, 45, 32, 0.1);
+    --shadow: 0 30px 80px rgba(92, 42, 11, 0.13);
 }
 
 [data-theme="dark"] {
-    --background: #100d14;
-    --surface: #19151f;
-    --surface-soft: #211b29;
-    --text-primary: #f8f5fb;
-    --text-secondary: #aaa2b5;
-    --border: #393142;
-    --purple: #6d28d9;
-    --purple-dark: #7c3aed;
-    --purple-soft: #2a183d;
-    --success: #79d7a9;
-    --success-soft: #143326;
-    --danger: #ff8a80;
-    --danger-soft: #351918;
+    --background: #110b07;
+    --surface: rgba(31, 20, 13, 0.68);
+    --surface-strong: rgba(39, 24, 15, 0.86);
+    --surface-soft: rgba(54, 29, 13, 0.56);
+    --text-primary: #fff8f3;
+    --text-secondary: #b9a79b;
+    --border: rgba(255, 133, 51, 0.16);
+    --orange: #d85a12;
+    --orange-bright: #ff7a1a;
+    --orange-dark: #a73d07;
+    --orange-soft: rgba(255, 122, 26, 0.11);
+    --success: #78c49b;
+    --success-soft: rgba(120, 196, 155, 0.1);
+    --danger: #ff8f84;
+    --danger-soft: rgba(255, 143, 132, 0.1);
+    --shadow: 0 30px 90px rgba(0, 0, 0, 0.34);
 }
 
 * {
@@ -46,8 +50,9 @@ body {
     min-height: 100vh;
     background: var(--background);
     color: var(--text-primary);
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
     line-height: 1.6;
+    overflow-x: hidden;
     transition:
         background-color 0.25s ease,
         color 0.25s ease;
@@ -64,14 +69,14 @@ button {
 
 button:focus-visible,
 input:focus-visible {
-    outline: 2px solid var(--purple);
+    outline: 2px solid var(--orange-bright);
     outline-offset: 3px;
 }
 
 .auth-page {
     min-height: 100vh;
     display: grid;
-    grid-template-columns: minmax(360px, 0.95fr) minmax(500px, 1.05fr);
+    grid-template-columns: minmax(380px, 0.94fr) minmax(500px, 1.06fr);
 }
 
 .auth-visual {
@@ -79,11 +84,11 @@ input:focus-visible {
     min-height: 100vh;
     display: flex;
     align-items: flex-end;
-    padding: 3rem;
+    padding: 3.5rem;
     overflow: hidden;
     background-image: url("/images/lockr-auth-bg.jpg");
-    background-position: center;
     background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
 }
 
@@ -93,52 +98,131 @@ input:focus-visible {
     background:
         linear-gradient(
             180deg,
-            rgba(12, 4, 24, 0.08) 0%,
-            rgba(12, 4, 24, 0.2) 45%,
-            rgba(12, 4, 24, 0.85) 100%
+            rgba(53, 20, 4, 0.1) 0%,
+            rgba(89, 31, 4, 0.18) 35%,
+            rgba(32, 12, 4, 0.82) 100%
         );
+}
+
+.visual-glow,
+.panel-glow {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(80px);
+}
+
+.visual-glow-one {
+    width: 340px;
+    height: 340px;
+    top: 10%;
+    right: -120px;
+    background: rgba(255, 105, 20, 0.28);
+}
+
+.visual-glow-two {
+    width: 260px;
+    height: 260px;
+    bottom: 6%;
+    left: -100px;
+    background: rgba(255, 169, 76, 0.2);
 }
 
 .lockr-brand {
     position: relative;
-    z-index: 1;
+    z-index: 2;
+    width: fit-content;
+    max-width: 100%;
+    padding: 1.6rem 1.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 24px;
+    background: rgba(24, 12, 5, 0.22);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     color: #ffffff;
 }
 
 .lockr-brand h1 {
-    font-size: clamp(4rem, 8vw, 7.5rem);
-    font-weight: 900;
-    line-height: 0.85;
+    font-size: clamp(3.8rem, 7vw, 6.6rem);
+    font-weight: 800;
+    line-height: 0.88;
     letter-spacing: -0.075em;
 }
 
 .lockr-brand p {
     margin-top: 1rem;
-    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.76);
+    font-size: 0.76rem;
     font-weight: 600;
-    letter-spacing: 0.18rem;
+    letter-spacing: 0.16rem;
     text-transform: uppercase;
 }
 
 .auth-panel {
+    position: relative;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 3rem;
-    background: var(--background);
+    padding: 3.5rem;
+    overflow: hidden;
+    background:
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(249, 115, 22, 0.15),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 5% 85%,
+            rgba(198, 75, 10, 0.12),
+            transparent 30%
+        ),
+        var(--background);
+}
+
+.panel-glow-one {
+    width: 300px;
+    height: 300px;
+    top: -90px;
+    right: -80px;
+    background: rgba(249, 115, 22, 0.12);
+}
+
+.panel-glow-two {
+    width: 300px;
+    height: 300px;
+    bottom: -110px;
+    left: -100px;
+    background: rgba(160, 55, 4, 0.12);
 }
 
 .auth-card {
-    width: min(100%, 520px);
+    position: relative;
+    z-index: 2;
+    width: min(100%, 510px);
     padding: 2rem;
     border: 1px solid var(--border);
-    border-radius: var(--radius-xl);
+    border-radius: 28px;
     background: var(--surface);
-    box-shadow: 0 18px 60px rgba(26, 18, 34, 0.08);
-    transition:
-        background-color 0.25s ease,
-        border-color 0.25s ease;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+}
+
+.auth-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.12),
+            transparent 50%
+        );
+    pointer-events: none;
 }
 
 .auth-card-header {
@@ -146,29 +230,30 @@ input:focus-visible {
     align-items: flex-start;
     justify-content: space-between;
     gap: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.7rem;
 }
 
 .auth-label {
-    margin-bottom: 0.35rem;
-    color: var(--purple);
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.12rem;
+    margin-bottom: 0.4rem;
+    color: var(--orange);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.11rem;
     text-transform: uppercase;
 }
 
 .auth-card-header h2 {
-    margin-bottom: 0.35rem;
-    font-size: 1.75rem;
+    margin-bottom: 0.4rem;
+    font-size: 1.9rem;
     font-weight: 800;
-    letter-spacing: -0.035em;
+    line-height: 1.1;
+    letter-spacing: -0.045em;
 }
 
 .auth-description {
-    max-width: 360px;
+    max-width: 350px;
     color: var(--text-secondary);
-    font-size: 0.84rem;
+    font-size: 0.8rem;
 }
 
 .theme-toggle {
@@ -182,41 +267,43 @@ input:focus-visible {
     border-radius: 50%;
     background: var(--surface-soft);
     color: var(--text-primary);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     transition:
         transform 0.2s ease,
-        border-color 0.2s ease,
-        background-color 0.2s ease;
+        border-color 0.2s ease;
 }
 
 .theme-toggle:hover {
     transform: translateY(-2px);
-    border-color: var(--purple);
+    border-color: var(--orange-bright);
 }
 
 .theme-toggle svg {
-    width: 18px;
-    height: 18px;
-    stroke-width: 1.8;
+    width: 17px;
+    height: 17px;
 }
 
 .auth-tabs {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.4rem;
-    margin-bottom: 1.6rem;
+    margin-bottom: 1.7rem;
     padding: 0.35rem;
     border: 1px solid var(--border);
-    border-radius: 13px;
+    border-radius: 14px;
     background: var(--surface-soft);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
 }
 
 .auth-tab {
     min-height: 42px;
     border: 0;
-    border-radius: 9px;
+    border-radius: 10px;
     background: transparent;
     color: var(--text-secondary);
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     font-weight: 700;
     transition:
         background-color 0.2s ease,
@@ -224,14 +311,10 @@ input:focus-visible {
         box-shadow 0.2s ease;
 }
 
-.auth-tab:hover {
-    color: var(--text-primary);
-}
-
 .auth-tab.active {
-    background: var(--surface);
-    color: var(--purple);
-    box-shadow: 0 4px 14px rgba(34, 24, 43, 0.08);
+    background: var(--surface-strong);
+    color: var(--orange);
+    box-shadow: 0 6px 20px rgba(91, 39, 8, 0.08);
 }
 
 .auth-form {
@@ -247,7 +330,7 @@ input:focus-visible {
     display: block;
     margin-bottom: 0.42rem;
     color: var(--text-secondary);
-    font-size: 0.73rem;
+    font-size: 0.7rem;
     font-weight: 700;
 }
 
@@ -268,13 +351,15 @@ input:focus-visible {
 
 .input-wrapper input {
     width: 100%;
-    min-height: 50px;
+    min-height: 51px;
     padding: 0 1rem 0 2.8rem;
     border: 1px solid var(--border);
-    border-radius: var(--radius-md);
+    border-radius: 13px;
     outline: none;
     background: var(--surface-soft);
     color: var(--text-primary);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     transition:
         border-color 0.2s ease,
         box-shadow 0.2s ease,
@@ -287,11 +372,12 @@ input:focus-visible {
 
 .input-wrapper input::placeholder {
     color: var(--text-secondary);
+    opacity: 0.72;
 }
 
 .input-wrapper input:focus {
-    border-color: var(--purple);
-    box-shadow: 0 0 0 3px rgba(76, 29, 149, 0.12);
+    border-color: var(--orange-bright);
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.11);
 }
 
 .password-toggle {
@@ -306,53 +392,45 @@ input:focus-visible {
     border-radius: 9px;
     background: transparent;
     color: var(--text-secondary);
-    transition:
-        background-color 0.2s ease,
-        color 0.2s ease;
 }
 
 .password-toggle:hover {
-    background: var(--purple-soft);
-    color: var(--purple);
+    background: var(--orange-soft);
+    color: var(--orange);
 }
 
 .password-toggle svg {
     width: 17px;
     height: 17px;
-    stroke-width: 1.8;
 }
 
 .password-requirements {
     display: flex;
     flex-wrap: wrap;
     gap: 0.45rem;
-    margin-top: 0.45rem;
+    margin-top: 0.5rem;
 }
 
 .password-requirements span {
     display: inline-flex;
     align-items: center;
     min-height: 26px;
-    padding: 0.15rem 0.55rem;
+    padding: 0.18rem 0.58rem;
     border: 1px solid var(--border);
     border-radius: 999px;
     background: var(--surface-soft);
     color: var(--text-secondary);
-    font-size: 0.64rem;
-    transition:
-        color 0.2s ease,
-        border-color 0.2s ease,
-        background-color 0.2s ease;
+    font-size: 0.62rem;
 }
 
 .password-requirements span.valid {
-    border-color: rgba(23, 107, 69, 0.3);
+    border-color: rgba(52, 115, 83, 0.25);
     background: var(--success-soft);
     color: var(--success);
 }
 
 .password-requirements span.invalid {
-    border-color: rgba(180, 35, 24, 0.3);
+    border-color: rgba(183, 45, 32, 0.25);
     background: var(--danger-soft);
     color: var(--danger);
 }
@@ -360,7 +438,7 @@ input:focus-visible {
 .form-message {
     min-height: 20px;
     color: var(--text-secondary);
-    font-size: 0.72rem;
+    font-size: 0.7rem;
 }
 
 .form-message.error {
@@ -373,31 +451,37 @@ input:focus-visible {
 
 .primary-button {
     width: 100%;
-    min-height: 50px;
+    min-height: 51px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.55rem;
-    border: 1px solid var(--purple);
-    border-radius: var(--radius-md);
-    background: var(--purple);
+    border: 1px solid var(--orange);
+    border-radius: 13px;
+    background:
+        linear-gradient(
+            135deg,
+            var(--orange-dark),
+            var(--orange-bright)
+        );
     color: #ffffff;
-    font-size: 0.84rem;
+    font-size: 0.8rem;
     font-weight: 700;
+    box-shadow: 0 13px 32px rgba(198, 75, 10, 0.24);
     transition:
         transform 0.2s ease,
-        background-color 0.2s ease,
+        box-shadow 0.2s ease,
         opacity 0.2s ease;
 }
 
 .primary-button:hover {
-    transform: translateY(-1px);
-    background: var(--purple-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 16px 38px rgba(198, 75, 10, 0.32);
 }
 
 .primary-button:disabled {
     cursor: not-allowed;
-    opacity: 0.65;
+    opacity: 0.62;
 }
 
 .primary-button svg {
@@ -406,9 +490,9 @@ input:focus-visible {
 }
 
 .auth-switch-text {
-    margin-top: 1.4rem;
+    margin-top: 1.5rem;
     color: var(--text-secondary);
-    font-size: 0.76rem;
+    font-size: 0.73rem;
     text-align: center;
 }
 
@@ -416,8 +500,8 @@ input:focus-visible {
     margin-left: 0.25rem;
     border: 0;
     background: transparent;
-    color: var(--purple);
-    font-weight: 700;
+    color: var(--orange);
+    font-weight: 800;
 }
 
 .auth-switch-text button:hover {
@@ -430,13 +514,8 @@ input:focus-visible {
     }
 
     .auth-visual {
-        min-height: 440px;
+        min-height: 430px;
         padding: 2rem;
-        background-position: center;
-    }
-
-    .lockr-brand h1 {
-        font-size: clamp(4rem, 14vw, 6rem);
     }
 
     .auth-panel {
@@ -447,18 +526,17 @@ input:focus-visible {
 
 @media (max-width: 600px) {
     .auth-visual {
-        min-height: 360px;
-        padding: 1.5rem;
+        min-height: 350px;
+        padding: 1.25rem;
+    }
+
+    .lockr-brand {
+        padding: 1.3rem;
+        border-radius: 20px;
     }
 
     .lockr-brand h1 {
-        font-size: 4rem;
-    }
-
-    .lockr-brand p {
-        margin-top: 0.75rem;
-        font-size: 0.7rem;
-        letter-spacing: 0.12rem;
+        font-size: 3.8rem;
     }
 
     .auth-panel {
@@ -466,21 +544,12 @@ input:focus-visible {
     }
 
     .auth-card {
-        padding: 1.25rem;
-        border-radius: 20px;
-    }
-
-    .auth-card-header {
-        gap: 1rem;
+        padding: 1.3rem;
+        border-radius: 22px;
     }
 
     .auth-card-header h2 {
-        font-size: 1.5rem;
-    }
-
-    .theme-toggle {
-        width: 40px;
-        height: 40px;
+        font-size: 1.55rem;
     }
 
     .password-requirements {
@@ -495,23 +564,11 @@ input:focus-visible {
     }
 
     .lockr-brand h1 {
-        font-size: 3.3rem;
+        font-size: 3.2rem;
     }
 
     .auth-card {
         padding: 1rem;
-    }
-
-    .auth-tabs {
-        margin-bottom: 1.3rem;
-    }
-
-    .input-wrapper input {
-        min-height: 48px;
-    }
-
-    .primary-button {
-        min-height: 48px;
     }
 }
 

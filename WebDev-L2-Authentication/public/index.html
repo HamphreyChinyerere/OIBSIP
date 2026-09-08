@@ -11,14 +11,30 @@
 
     <meta
         name="description"
-        content="LOCKR is a secure authentication system with registration, login and protected user access."
+        content="LOCKR secure authentication system."
     >
 
     <title>LOCKR | Authentication System</title>
 
     <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
         rel="stylesheet"
-        href="style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/style.css"
     >
 </head>
 
@@ -29,6 +45,9 @@
         <section class="auth-visual">
 
             <div class="visual-overlay"></div>
+
+            <div class="visual-glow visual-glow-one"></div>
+            <div class="visual-glow visual-glow-two"></div>
 
             <div class="lockr-brand">
 
@@ -46,6 +65,9 @@
 
         <section class="auth-panel">
 
+            <div class="panel-glow panel-glow-one"></div>
+            <div class="panel-glow panel-glow-two"></div>
+
             <div class="auth-card">
 
                 <div class="auth-card-header">
@@ -53,7 +75,7 @@
                     <div>
 
                         <p class="auth-label">
-                            Account Access
+                            Secure Access
                         </p>
 
                         <h2 id="formTitle">
@@ -359,7 +381,7 @@
     </main>
 
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="auth.js"></script>
+    <script src="/auth.js"></script>
 
 </body>
 
