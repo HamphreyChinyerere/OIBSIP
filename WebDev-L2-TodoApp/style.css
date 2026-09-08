@@ -28,6 +28,15 @@ body {
     line-height: 1.6;
 }
 
+button,
+input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
 .app {
     width: min(92%, var(--max-width));
     margin: 0 auto;
@@ -35,7 +44,15 @@ body {
 }
 
 .app-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
     margin-bottom: 2.5rem;
+}
+
+.brand {
+    flex: 1;
 }
 
 .brand-label {
@@ -61,6 +78,34 @@ body {
     font-size: 0.95rem;
 }
 
+.theme-toggle {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--text-primary);
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.theme-toggle:hover {
+    transform: translateY(-2px);
+    border-color: var(--text-primary);
+}
+
+.theme-toggle svg {
+    width: 19px;
+    height: 19px;
+    stroke-width: 1.8;
+}
+
 @media (max-width: 600px) {
     .app {
         width: 90%;
@@ -68,6 +113,7 @@ body {
     }
 
     .app-header {
+        gap: 1rem;
         margin-bottom: 2rem;
     }
 
@@ -76,6 +122,12 @@ body {
     }
 
     .brand-description {
+        max-width: 290px;
         font-size: 0.9rem;
+    }
+
+    .theme-toggle {
+        width: 42px;
+        height: 42px;
     }
 }
