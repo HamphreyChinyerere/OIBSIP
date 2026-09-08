@@ -5,6 +5,9 @@ const formMessage = document.getElementById("formMessage");
 const pendingList = document.getElementById("pendingList");
 const pendingEmpty = document.getElementById("pendingEmpty");
 const pendingCount = document.getElementById("pendingCount");
+const completedList = document.getElementById("completedList");
+const completedEmpty = document.getElementById("completedEmpty");
+const completedCount = document.getElementById("completedCount");
 
 let currentTheme = "light";
 let tasks = [];
@@ -64,6 +67,7 @@ function completeTask(taskId) {
     task.completed = true;
 
     renderPendingTasks();
+    renderCompletedTasks();
 }
 
 function renderPendingTasks() {
@@ -121,6 +125,44 @@ function renderPendingTasks() {
     lucide.createIcons();
 }
 
+function renderCompletedTasks() {
+    const completedTasks = tasks.filter(
+        (task) => task.completed
+    );
+
+    completedList.innerHTML = "";
+
+    completedTasks.forEach((task) => {
+        const taskItem = document.createElement("article");
+
+        taskItem.className = "task-item completed-task";
+        taskItem.dataset.taskId = task.id;
+
+        const taskText = document.createElement("p");
+
+        taskText.className = "task-text";
+        taskText.textContent = task.text;
+
+        const statusIcon = document.createElement("div");
+
+        statusIcon.className = "completed-status";
+        statusIcon.innerHTML = `
+            <i data-lucide="circle-check"></i>
+        `;
+
+        taskItem.appendChild(taskText);
+        taskItem.appendChild(statusIcon);
+
+        completedList.appendChild(taskItem);
+    });
+
+    completedCount.textContent = completedTasks.length;
+
+    completedEmpty.hidden = completedTasks.length > 0;
+
+    lucide.createIcons();
+}
+
 function addTask(event) {
     event.preventDefault();
 
@@ -141,6 +183,7 @@ function addTask(event) {
     showFormMessage("Task added successfully.");
 
     renderPendingTasks();
+    renderCompletedTasks();
 
     taskInput.focus();
 }
@@ -152,3 +195,4 @@ taskInput.addEventListener("input", clearFormMessage);
 taskForm.addEventListener("submit", addTask);
 
 renderPendingTasks();
+renderCompletedTasks();
