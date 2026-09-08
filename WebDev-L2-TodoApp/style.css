@@ -209,6 +209,88 @@ button {
     font-size: 0.78rem;
 }
 
+.tasks-section {
+    margin-bottom: 2rem;
+    padding: 1.4rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    transition:
+        background-color 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.section-label {
+    margin-bottom: 0.2rem;
+    color: var(--text-secondary);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12rem;
+    text-transform: uppercase;
+}
+
+.section-heading h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.task-count {
+    min-width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--background);
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.task-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.empty-state {
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 2rem 1rem;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.empty-state svg {
+    width: 28px;
+    height: 28px;
+    stroke-width: 1.5;
+}
+
+.empty-state p {
+    font-size: 0.88rem;
+}
+
+.completed-section {
+    margin-bottom: 0;
+}
+
 @media (max-width: 600px) {
     .app {
         width: 90%;
@@ -245,5 +327,17 @@ button {
 
     .add-task-button {
         width: 100%;
+    }
+
+    .tasks-section {
+        padding: 1rem;
+    }
+
+    .section-heading h2 {
+        font-size: 1.15rem;
+    }
+
+    .empty-state {
+        min-height: 130px;
     }
 }
