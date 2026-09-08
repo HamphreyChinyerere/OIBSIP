@@ -66,8 +66,21 @@ function completeTask(taskId) {
 
     task.completed = true;
 
-    renderPendingTasks();
-    renderCompletedTasks();
+    renderTasks();
+}
+
+function restoreTask(taskId) {
+    const task = tasks.find(
+        (item) => item.id === taskId
+    );
+
+    if (!task) {
+        return;
+    }
+
+    task.completed = false;
+
+    renderTasks();
 }
 
 function renderPendingTasks() {
@@ -121,8 +134,6 @@ function renderPendingTasks() {
     pendingCount.textContent = pendingTasks.length;
 
     pendingEmpty.hidden = pendingTasks.length > 0;
-
-    lucide.createIcons();
 }
 
 function renderCompletedTasks() {
@@ -143,15 +154,32 @@ function renderCompletedTasks() {
         taskText.className = "task-text";
         taskText.textContent = task.text;
 
-        const statusIcon = document.createElement("div");
+        const taskActions = document.createElement("div");
 
-        statusIcon.className = "completed-status";
-        statusIcon.innerHTML = `
-            <i data-lucide="circle-check"></i>
+        taskActions.className = "task-actions";
+
+        const restoreButton = document.createElement("button");
+
+        restoreButton.type = "button";
+        restoreButton.className = "task-action restore-button";
+        restoreButton.setAttribute(
+            "aria-label",
+            `Move ${task.text} back to pending`
+        );
+
+        restoreButton.innerHTML = `
+            <i data-lucide="rotate-ccw"></i>
         `;
 
+        restoreButton.addEventListener(
+            "click",
+            () => restoreTask(task.id)
+        );
+
+        taskActions.appendChild(restoreButton);
+
         taskItem.appendChild(taskText);
-        taskItem.appendChild(statusIcon);
+        taskItem.appendChild(taskActions);
 
         completedList.appendChild(taskItem);
     });
@@ -159,7 +187,11 @@ function renderCompletedTasks() {
     completedCount.textContent = completedTasks.length;
 
     completedEmpty.hidden = completedTasks.length > 0;
+}
 
+function renderTasks() {
+    renderPendingTasks();
+    renderCompletedTasks();
     lucide.createIcons();
 }
 
@@ -182,8 +214,7 @@ function addTask(event) {
 
     showFormMessage("Task added successfully.");
 
-    renderPendingTasks();
-    renderCompletedTasks();
+    renderTasks();
 
     taskInput.focus();
 }
@@ -194,5 +225,4 @@ taskInput.addEventListener("input", clearFormMessage);
 
 taskForm.addEventListener("submit", addTask);
 
-renderPendingTasks();
-renderCompletedTasks();
+renderTasks();
