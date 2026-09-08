@@ -3,16 +3,6 @@ const dashboardUsername =
         "dashboardUsername"
     );
 
-const profileUsername =
-    document.getElementById(
-        "profileUsername"
-    );
-
-const profileEmail =
-    document.getElementById(
-        "profileEmail"
-    );
-
 const accountUsername =
     document.getElementById(
         "accountUsername"
@@ -28,9 +18,9 @@ const accountId =
         "accountId"
     );
 
-const avatarInitials =
+const sessionStatus =
     document.getElementById(
-        "avatarInitials"
+        "sessionStatus"
     );
 
 const loggedInAt =
@@ -38,9 +28,9 @@ const loggedInAt =
         "loggedInAt"
     );
 
-const sessionStatus =
+const sessionTimeLeft =
     document.getElementById(
-        "sessionStatus"
+        "sessionTimeLeft"
     );
 
 const dashboardThemeToggle =
@@ -56,43 +46,17 @@ const logoutButton =
 const THEME_STORAGE_KEY =
     "lockr-theme";
 
+const SESSION_DURATION =
+    2 * 60 * 60 * 1000;
+
 let currentTheme = "light";
 let logoutLoading = false;
+let sessionStartedAt = null;
+let sessionTimer = null;
 
-function updateIcons() {
-    if (window.lucide) {
-        lucide.createIcons();
-    }
-}
-
-function getInitials(username) {
-    if (!username) {
-        return "U";
-    }
-
-    const parts =
-        username
-            .trim()
-            .split(/\s+/)
-            .filter(Boolean);
-
-    if (parts.length === 1) {
-        return parts[0]
-            .slice(0, 2)
-            .toUpperCase();
-    }
-
-    return (
-        parts[0][0] +
-        parts[
-            parts.length - 1
-        ][0]
-    ).toUpperCase();
-}
-
-function formatLoginTime(value) {
+function formatSessionTime(value) {
     if (!value) {
-        return "Current session";
+        return "--:--";
     }
 
     const date =
@@ -103,29 +67,83 @@ function formatLoginTime(value) {
             date.getTime()
         )
     ) {
-        return "Current session";
+        return "--:--";
     }
 
-    return date.toLocaleString(
-        undefined,
+    return date.toLocaleTimeString(
+        [],
         {
-            dateStyle: "medium",
-            timeStyle: "short"
+            hour: "2-digit",
+            minute: "2-digit"
         }
     );
 }
 
-function displayUserSession(data) {
-    const user = data.user;
+function formatTimeLeft(milliseconds) {
+    if (milliseconds <= 0) {
+        return "00H 00M";
+    }
+
+    const totalMinutes =
+        Math.ceil(
+            milliseconds /
+            60000
+        );
+
+    const hours =
+        Math.floor(
+            totalMinutes / 60
+        );
+
+    const minutes =
+        totalMinutes % 60;
+
+    return `${String(hours).padStart(
+        2,
+        "0"
+    )}H ${String(minutes).padStart(
+        2,
+        "0"
+    )}M`;
+}
+
+function updateSessionTimeLeft() {
+    if (!sessionStartedAt) {
+        sessionTimeLeft.textContent =
+            "--";
+        return;
+    }
+
+    const expiresAt =
+        sessionStartedAt.getTime() +
+        SESSION_DURATION;
+
+    const remaining =
+        expiresAt -
+        Date.now();
+
+    sessionTimeLeft.textContent =
+        formatTimeLeft(
+            remaining
+        );
+
+    if (remaining <= 0) {
+        clearInterval(
+            sessionTimer
+        );
+
+        window.location.replace(
+            "/"
+        );
+    }
+}
+
+function displaySession(data) {
+    const user =
+        data.user;
 
     dashboardUsername.textContent =
         user.username;
-
-    profileUsername.textContent =
-        user.username;
-
-    profileEmail.textContent =
-        user.email;
 
     accountUsername.textContent =
         user.username;
@@ -134,22 +152,28 @@ function displayUserSession(data) {
         user.email;
 
     accountId.textContent =
-        String(user.id);
+        `ID / ${user.id}`;
 
-    avatarInitials.textContent =
-        getInitials(
-            user.username
-        );
+    sessionStatus.textContent =
+        "ACTIVE";
 
     loggedInAt.textContent =
-        formatLoginTime(
+        formatSessionTime(
             data.loggedInAt
         );
 
-    sessionStatus.innerHTML = `
-        <span class="status-dot"></span>
-        Session Active
-    `;
+    sessionStartedAt =
+        new Date(
+            data.loggedInAt
+        );
+
+    updateSessionTimeLeft();
+
+    sessionTimer =
+        setInterval(
+            updateSessionTimeLeft,
+            30000
+        );
 }
 
 async function loadSession() {
@@ -186,44 +210,19 @@ async function loadSession() {
             return;
         }
 
-        displayUserSession(data);
+        displaySession(data);
     } catch {
-        sessionStatus.innerHTML = `
-            <span class="status-dot"></span>
-            Session unavailable
-        `;
-
-        dashboardUsername.textContent =
-            "User";
-
-        profileUsername.textContent =
-            "Unable to load account";
-
-        profileEmail.textContent =
-            "Session unavailable";
-
-        accountUsername.textContent =
-            "Unavailable";
-
-        accountEmail.textContent =
-            "Unavailable";
-
-        accountId.textContent =
-            "Unavailable";
-
-        loggedInAt.textContent =
-            "Unavailable";
+        window.location.replace(
+            "/"
+        );
     }
 }
 
-function updateThemeIcon() {
-    const icon =
+function updateThemeControl() {
+    dashboardThemeToggle.textContent =
         currentTheme === "dark"
-            ? "sun"
-            : "moon";
-
-    dashboardThemeToggle.innerHTML =
-        `<i data-lucide="${icon}"></i>`;
+            ? "LIGHT MODE"
+            : "DARK MODE";
 
     dashboardThemeToggle.setAttribute(
         "aria-label",
@@ -231,8 +230,6 @@ function updateThemeIcon() {
             ? "Switch to light mode"
             : "Switch to dark mode"
     );
-
-    updateIcons();
 }
 
 function applyTheme() {
@@ -241,7 +238,7 @@ function applyTheme() {
         currentTheme
     );
 
-    updateThemeIcon();
+    updateThemeControl();
 }
 
 function loadTheme() {
@@ -285,23 +282,16 @@ function toggleTheme() {
 function setLogoutLoading(
     loading
 ) {
-    logoutLoading = loading;
+    logoutLoading =
+        loading;
 
     logoutButton.disabled =
         loading;
 
-    if (loading) {
-        logoutButton.innerHTML = `
-            <span>Logging out...</span>
-        `;
-    } else {
-        logoutButton.innerHTML = `
-            <i data-lucide="log-out"></i>
-            <span>Logout</span>
-        `;
-    }
-
-    updateIcons();
+    logoutButton.textContent =
+        loading
+            ? "LOGGING OUT"
+            : "LOGOUT";
 }
 
 async function handleLogout() {
@@ -309,7 +299,9 @@ async function handleLogout() {
         return;
     }
 
-    setLogoutLoading(true);
+    setLogoutLoading(
+        true
+    );
 
     try {
         const response =
@@ -325,13 +317,20 @@ async function handleLogout() {
             );
 
         if (!response.ok) {
-            setLogoutLoading(false);
+            setLogoutLoading(
+                false
+            );
+
             return;
         }
 
-        window.location.replace("/");
+        window.location.replace(
+            "/"
+        );
     } catch {
-        setLogoutLoading(false);
+        setLogoutLoading(
+            false
+        );
     }
 }
 
@@ -347,4 +346,3 @@ logoutButton.addEventListener(
 
 loadTheme();
 loadSession();
-updateIcons();
