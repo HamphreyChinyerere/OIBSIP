@@ -1,0 +1,81 @@
+:root {
+    --background: #f4f4f1;
+    --surface: #ffffff;
+    --text-primary: #171717;
+    --text-secondary: #6d6d6d;
+    --border: #ddddda;
+    --accent: #171717;
+    --radius-lg: 24px;
+    --radius-md: 14px;
+    --max-width: 760px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--background);
+    color: var(--text-primary);
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+}
+
+.app {
+    width: min(92%, var(--max-width));
+    margin: 0 auto;
+    padding: 4rem 0;
+}
+
+.app-header {
+    margin-bottom: 2.5rem;
+}
+
+.brand-label {
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.15rem;
+    text-transform: uppercase;
+}
+
+.brand h1 {
+    margin-bottom: 0.5rem;
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.05em;
+}
+
+.brand-description {
+    max-width: 440px;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+@media (max-width: 600px) {
+    .app {
+        width: 90%;
+        padding: 2.5rem 0;
+    }
+
+    .app-header {
+        margin-bottom: 2rem;
+    }
+
+    .brand h1 {
+        font-size: 3rem;
+    }
+
+    .brand-description {
+        font-size: 0.9rem;
+    }
+}
