@@ -2,6 +2,9 @@ const themeToggle = document.getElementById("themeToggle");
 const taskForm = document.getElementById("taskForm");
 const taskInput = document.getElementById("taskInput");
 const formMessage = document.getElementById("formMessage");
+const pendingList = document.getElementById("pendingList");
+const pendingEmpty = document.getElementById("pendingEmpty");
+const pendingCount = document.getElementById("pendingCount");
 
 let currentTheme = "light";
 let tasks = [];
@@ -37,7 +40,7 @@ function createTask(taskText) {
         id: Date.now(),
         text: taskText,
         completed: false,
-        createdAt: new Date()
+        createdAt: new Date().toISOString()
     };
 }
 
@@ -47,6 +50,34 @@ function showFormMessage(message) {
 
 function clearFormMessage() {
     formMessage.textContent = "";
+}
+
+function renderPendingTasks() {
+    const pendingTasks = tasks.filter(
+        (task) => !task.completed
+    );
+
+    pendingList.innerHTML = "";
+
+    pendingTasks.forEach((task) => {
+        const taskItem = document.createElement("article");
+
+        taskItem.className = "task-item";
+        taskItem.dataset.taskId = task.id;
+
+        const taskText = document.createElement("p");
+
+        taskText.className = "task-text";
+        taskText.textContent = task.text;
+
+        taskItem.appendChild(taskText);
+
+        pendingList.appendChild(taskItem);
+    });
+
+    pendingCount.textContent = pendingTasks.length;
+
+    pendingEmpty.hidden = pendingTasks.length > 0;
 }
 
 function addTask(event) {
@@ -68,6 +99,8 @@ function addTask(event) {
 
     showFormMessage("Task added successfully.");
 
+    renderPendingTasks();
+
     taskInput.focus();
 }
 
@@ -76,3 +109,5 @@ themeToggle.addEventListener("click", toggleTheme);
 taskInput.addEventListener("input", clearFormMessage);
 
 taskForm.addEventListener("submit", addTask);
+
+renderPendingTasks();
