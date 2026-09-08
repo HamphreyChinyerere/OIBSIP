@@ -11,10 +11,10 @@
 
     <meta
         name="description"
-        content="A responsive task management application built for the Oasis Infobyte Web Development internship."
+        content="TaskFlow is a responsive productivity and task management application."
     >
 
-    <title>TaskFlow | To-Do App</title>
+    <title>TaskFlow | Productivity Manager</title>
 
     <link
         rel="stylesheet"
@@ -31,7 +31,7 @@
             <div class="brand">
 
                 <p class="brand-label">
-                    Task Manager
+                    Productivity Manager
                 </p>
 
                 <h1>
@@ -39,7 +39,7 @@
                 </h1>
 
                 <p class="brand-description">
-                    Organize your day and keep track of what matters.
+                    Plan your work, manage deadlines and focus on what matters.
                 </p>
 
             </div>
@@ -49,11 +49,37 @@
                 id="themeToggle"
                 type="button"
                 aria-label="Toggle dark mode"
+                title="Toggle theme"
             >
                 <i data-lucide="moon"></i>
             </button>
 
         </header>
+
+        <section class="quote-card">
+
+            <div class="quote-icon">
+                <i data-lucide="quote"></i>
+            </div>
+
+            <div class="quote-content">
+
+                <p class="quote-label">
+                    Quote of the Day
+                </p>
+
+                <blockquote id="quoteText">
+                    Loading inspiration...
+                </blockquote>
+
+                <p
+                    class="quote-author"
+                    id="quoteAuthor"
+                ></p>
+
+            </div>
+
+        </section>
 
         <section class="task-entry">
 
@@ -62,41 +88,238 @@
                 id="taskForm"
             >
 
-                <label
-                    for="taskInput"
-                    class="task-label"
-                >
-                    Add a new task
-                </label>
+                <div class="form-heading">
 
-                <div class="task-input-wrapper">
+                    <div>
+                        <p class="form-label">
+                            New Task
+                        </p>
+
+                        <h2>
+                            What do you need to accomplish?
+                        </h2>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="taskTitle">
+                        Task title
+                    </label>
 
                     <input
                         type="text"
-                        id="taskInput"
-                        class="task-input"
-                        placeholder="What needs to be done?"
+                        id="taskTitle"
+                        class="form-input"
+                        placeholder="Enter task title"
+                        maxlength="80"
                         autocomplete="off"
-                        maxlength="120"
+                        required
                     >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="taskDescription">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="taskDescription"
+                        class="form-input form-textarea"
+                        placeholder="Describe what needs to be done"
+                        maxlength="300"
+                        required
+                    ></textarea>
+
+                    <div class="description-footer">
+
+                        <span>
+                            Add enough detail to remember what needs to be done.
+                        </span>
+
+                        <span id="descriptionCount">
+                            0 / 300
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="taskDeadline">
+                        Deadline
+                    </label>
+
+                    <div class="deadline-input-wrapper">
+
+                        <i data-lucide="calendar-clock"></i>
+
+                        <input
+                            type="datetime-local"
+                            id="taskDeadline"
+                            class="form-input deadline-input"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+                <div class="form-footer">
+
+                    <p
+                        class="form-message"
+                        id="formMessage"
+                        aria-live="polite"
+                    ></p>
 
                     <button
                         type="submit"
-                        class="add-task-button"
+                        class="primary-button"
                     >
                         <i data-lucide="plus"></i>
-                        <span>Add Task</span>
+
+                        <span>
+                            Add Task
+                        </span>
                     </button>
 
                 </div>
 
-                <p
-                    class="form-message"
-                    id="formMessage"
-                    aria-live="polite"
-                ></p>
-
             </form>
+
+        </section>
+
+        <section
+            class="task-summary"
+            aria-label="Task summary"
+        >
+
+            <div class="summary-item">
+
+                <span class="summary-label">
+                    Total
+                </span>
+
+                <strong
+                    class="summary-value"
+                    id="totalCount"
+                >
+                    0
+                </strong>
+
+            </div>
+
+            <div class="summary-divider"></div>
+
+            <div class="summary-item">
+
+                <span class="summary-label">
+                    Urgent
+                </span>
+
+                <strong
+                    class="summary-value"
+                    id="summaryUrgentCount"
+                >
+                    0
+                </strong>
+
+            </div>
+
+            <div class="summary-divider"></div>
+
+            <div class="summary-item">
+
+                <span class="summary-label">
+                    Pending
+                </span>
+
+                <strong
+                    class="summary-value"
+                    id="summaryPendingCount"
+                >
+                    0
+                </strong>
+
+            </div>
+
+            <div class="summary-divider"></div>
+
+            <div class="summary-item">
+
+                <span class="summary-label">
+                    Completed
+                </span>
+
+                <strong
+                    class="summary-value"
+                    id="summaryCompletedCount"
+                >
+                    0
+                </strong>
+
+            </div>
+
+        </section>
+
+        <section
+            class="tasks-section urgent-section"
+            id="urgentSection"
+        >
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="section-label urgent-label">
+                        Priority
+                    </p>
+
+                    <h2>
+                        Urgent
+                    </h2>
+
+                    <p class="section-description">
+                        Tasks approaching their deadline.
+                    </p>
+
+                </div>
+
+                <span
+                    class="task-count urgent-count"
+                    id="urgentCount"
+                >
+                    0
+                </span>
+
+            </div>
+
+            <div
+                class="task-list"
+                id="urgentList"
+            ></div>
+
+            <div
+                class="empty-state"
+                id="urgentEmpty"
+            >
+
+                <i data-lucide="clock"></i>
+
+                <p>
+                    Nothing urgent right now.
+                </p>
+
+                <span>
+                    Tasks will move here automatically as deadlines approach.
+                </span>
+
+            </div>
 
         </section>
 
@@ -105,6 +328,7 @@
             <div class="section-heading">
 
                 <div>
+
                     <p class="section-label">
                         To Do
                     </p>
@@ -112,6 +336,11 @@
                     <h2>
                         Pending Tasks
                     </h2>
+
+                    <p class="section-description">
+                        Tasks that still have enough time remaining.
+                    </p>
+
                 </div>
 
                 <span
@@ -132,20 +361,27 @@
                 class="empty-state"
                 id="pendingEmpty"
             >
+
                 <i data-lucide="clipboard-list"></i>
 
                 <p>
-                    No pending tasks yet.
+                    No pending tasks.
                 </p>
+
+                <span>
+                    Add a task above to start planning your work.
+                </span>
+
             </div>
 
         </section>
 
         <section class="tasks-section completed-section">
 
-            <div class="section-heading">
+            <div class="section-heading completed-heading">
 
                 <div>
+
                     <p class="section-label">
                         Finished
                     </p>
@@ -153,14 +389,36 @@
                     <h2>
                         Completed Tasks
                     </h2>
+
+                    <p class="section-description">
+                        Tasks you have successfully completed.
+                    </p>
+
                 </div>
 
-                <span
-                    class="task-count"
-                    id="completedCount"
-                >
-                    0
-                </span>
+                <div class="completed-heading-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-button clear-completed-button"
+                        id="clearCompletedButton"
+                        disabled
+                    >
+                        <i data-lucide="trash-2"></i>
+
+                        <span>
+                            Clear Completed
+                        </span>
+                    </button>
+
+                    <span
+                        class="task-count"
+                        id="completedCount"
+                    >
+                        0
+                    </span>
+
+                </div>
 
             </div>
 
@@ -173,23 +431,45 @@
                 class="empty-state"
                 id="completedEmpty"
             >
+
                 <i data-lucide="circle-check"></i>
 
                 <p>
-                    Completed tasks will appear here.
+                    Nothing completed yet.
                 </p>
+
+                <span>
+                    Finished tasks will appear here.
+                </span>
+
             </div>
 
         </section>
+
+        <footer class="app-footer">
+
+            <div>
+
+                <strong>
+                    TaskFlow
+                </strong>
+
+                <p>
+                    Your tasks and preferences are saved automatically in this browser.
+                </p>
+
+            </div>
+
+            <span>
+                Stay focused. Finish strong.
+            </span>
+
+        </footer>
 
     </main>
 
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="script.js"></script>
-
-    <script>
-        lucide.createIcons();
-    </script>
 
 </body>
 
