@@ -58,7 +58,12 @@ app.use(
 );
 
 app.use(
-    express.static(publicDirectory)
+    express.static(
+        publicDirectory,
+        {
+            index: false
+        }
+    )
 );
 
 async function readUsers() {
@@ -588,6 +593,15 @@ app.get(
 app.get(
     "/",
     (request, response) => {
+        if (
+            request.session &&
+            request.session.user
+        ) {
+            return response.redirect(
+                "/dashboard"
+            );
+        }
+
         response.sendFile(
             path.join(
                 publicDirectory,
