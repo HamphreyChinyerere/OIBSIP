@@ -263,6 +263,36 @@ button {
     gap: 0.75rem;
 }
 
+.task-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 64px;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--background);
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        background-color 0.25s ease;
+}
+
+.task-item:hover {
+    transform: translateY(-1px);
+    border-color: var(--text-secondary);
+}
+
+.task-text {
+    flex: 1;
+    min-width: 0;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
 .empty-state {
     min-height: 150px;
     display: flex;
@@ -275,6 +305,10 @@ button {
     border-radius: var(--radius-md);
     color: var(--text-secondary);
     text-align: center;
+}
+
+.empty-state[hidden] {
+    display: none;
 }
 
 .empty-state svg {
@@ -335,6 +369,11 @@ button {
 
     .section-heading h2 {
         font-size: 1.15rem;
+    }
+
+    .task-item {
+        min-height: 58px;
+        padding: 0.8rem 0.85rem;
     }
 
     .empty-state {
