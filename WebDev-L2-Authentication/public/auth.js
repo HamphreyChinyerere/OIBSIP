@@ -7,10 +7,15 @@ const formDescription = document.getElementById("formDescription");
 const switchPrompt = document.getElementById("switchPrompt");
 const switchAuthButton = document.getElementById("switchAuthButton");
 const themeToggle = document.getElementById("themeToggle");
+
+const registerUsername = document.getElementById("registerUsername");
+const registerEmail = document.getElementById("registerEmail");
 const registerPassword = document.getElementById("registerPassword");
 const confirmPassword = document.getElementById("confirmPassword");
+
 const lengthRequirement = document.getElementById("lengthRequirement");
 const numberRequirement = document.getElementById("numberRequirement");
+
 const loginMessage = document.getElementById("loginMessage");
 const registerMessage = document.getElementById("registerMessage");
 
@@ -23,12 +28,18 @@ function updateIcons() {
     lucide.createIcons();
 }
 
-function clearMessages() {
-    loginMessage.textContent = "";
-    loginMessage.className = "form-message";
+function setMessage(element, message, type = "") {
+    element.textContent = message;
+    element.className = "form-message";
 
-    registerMessage.textContent = "";
-    registerMessage.className = "form-message";
+    if (type) {
+        element.classList.add(type);
+    }
+}
+
+function clearMessages() {
+    setMessage(loginMessage, "");
+    setMessage(registerMessage, "");
 }
 
 function showLogin() {
@@ -97,17 +108,16 @@ function showRegister() {
 
     clearMessages();
 
-    document
-        .getElementById("registerUsername")
-        .focus();
+    registerUsername.focus();
 }
 
 function switchAuthView() {
     if (currentView === "login") {
         showRegister();
-    } else {
-        showLogin();
+        return;
     }
+
+    showLogin();
 }
 
 function updateThemeIcon() {
@@ -244,6 +254,7 @@ function updatePasswordRequirements() {
 
 function validatePasswordMatch() {
     if (!confirmPassword.value) {
+        confirmPassword.setCustomValidity("");
         return;
     }
 
@@ -252,11 +263,149 @@ function validatePasswordMatch() {
         confirmPassword.value
     ) {
         confirmPassword.setCustomValidity("");
-    } else {
-        confirmPassword.setCustomValidity(
-            "Passwords do not match."
-        );
+        return;
     }
+
+    confirmPassword.setCustomValidity(
+        "Passwords do not match."
+    );
+}
+
+function isValidUsername(username) {
+    return /^[a-zA-Z0-9_]{3,30}$/.test(
+        username
+    );
+}
+
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+        email
+    );
+}
+
+function validateRegistration() {
+    const username =
+        registerUsername.value.trim();
+
+    const email =
+        registerEmail.value.trim();
+
+    const password =
+        registerPassword.value;
+
+    const confirmedPassword =
+        confirmPassword.value;
+
+    if (!username) {
+        setMessage(
+            registerMessage,
+            "Enter a username.",
+            "error"
+        );
+
+        registerUsername.focus();
+
+        return false;
+    }
+
+    if (!isValidUsername(username)) {
+        setMessage(
+            registerMessage,
+            "Username must be 3 to 30 characters and use only letters, numbers or underscores.",
+            "error"
+        );
+
+        registerUsername.focus();
+
+        return false;
+    }
+
+    if (!email) {
+        setMessage(
+            registerMessage,
+            "Enter your email address.",
+            "error"
+        );
+
+        registerEmail.focus();
+
+        return false;
+    }
+
+    if (!isValidEmail(email)) {
+        setMessage(
+            registerMessage,
+            "Enter a valid email address.",
+            "error"
+        );
+
+        registerEmail.focus();
+
+        return false;
+    }
+
+    if (password.length < 8) {
+        setMessage(
+            registerMessage,
+            "Password must contain at least 8 characters.",
+            "error"
+        );
+
+        registerPassword.focus();
+
+        return false;
+    }
+
+    if (!/\d/.test(password)) {
+        setMessage(
+            registerMessage,
+            "Password must contain at least one number.",
+            "error"
+        );
+
+        registerPassword.focus();
+
+        return false;
+    }
+
+    if (password !== confirmedPassword) {
+        setMessage(
+            registerMessage,
+            "Passwords do not match.",
+            "error"
+        );
+
+        confirmPassword.focus();
+
+        return false;
+    }
+
+    return true;
+}
+
+function handleRegisterSubmit(event) {
+    event.preventDefault();
+
+    clearMessages();
+
+    if (!validateRegistration()) {
+        return;
+    }
+
+    setMessage(
+        registerMessage,
+        "Registration details are valid.",
+        "success"
+    );
+}
+
+function handleLoginSubmit(event) {
+    event.preventDefault();
+
+    setMessage(
+        loginMessage,
+        "Login connection will be added next."
+    );
 }
 
 loginTab.addEventListener(
@@ -284,12 +433,23 @@ document
     .forEach((button) => {
         button.addEventListener(
             "click",
-            () =>
+            () => {
                 togglePasswordVisibility(
                     button
-                )
+                );
+            }
         );
     });
+
+registerUsername.addEventListener(
+    "input",
+    clearMessages
+);
+
+registerEmail.addEventListener(
+    "input",
+    clearMessages
+);
 
 registerPassword.addEventListener(
     "input",
@@ -314,8 +474,13 @@ loginForm.addEventListener(
 );
 
 registerForm.addEventListener(
-    "input",
-    clearMessages
+    "submit",
+    handleRegisterSubmit
+);
+
+loginForm.addEventListener(
+    "submit",
+    handleLoginSubmit
 );
 
 loadTheme();
