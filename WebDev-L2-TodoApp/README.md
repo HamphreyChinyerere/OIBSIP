@@ -1,137 +1,156 @@
-# TaskFlow - To-Do App
+# TaskFlow To-Do Application
 
-TaskFlow is a responsive productivity and task management web application developed as part of the Oasis Infobyte Web Development and Designing Internship.
+TaskFlow is an advanced browser-based task management application developed for the **Oasis Infobyte Web Development and Designing Internship — Level 2**.
 
-The application allows users to create tasks with deadlines, manage urgent work, edit tasks, complete tasks, track progress, and retain their data between browser sessions.
+The application allows users to create, organize, edit, complete, restore, and remove tasks while managing deadlines and automatically identifying urgent work.
+
+---
+
+## Overview
+
+TaskFlow extends the traditional to-do list concept with deadline tracking, urgency detection, persistent browser storage, task descriptions, productivity quotes, and light/dark themes.
+
+The project was built using HTML, CSS, and JavaScript without requiring a backend server.
+
+---
 
 ## Features
 
 ### Task Creation
 
-Users can create a task with:
+Users can create tasks with:
 
 - Task title
 - Task description
 - Deadline date
 - Deadline time
 
-The deadline field uses the browser's built-in date and time picker.
+The application uses the browser's native date and time controls for deadline selection.
 
-### Deadline Management
-
-Each task has a specific deadline.
-
-TaskFlow continuously checks task deadlines while the application is open.
-
-When a task deadline passes, the task is automatically removed.
-
-### Automatic Urgent Tasks
-
-TaskFlow automatically moves approaching tasks into the Urgent section.
-
-The urgency rules are:
-
-- If a task originally has more than 24 hours before its deadline, it becomes urgent when 24 hours remain.
-- If a task originally has less than 24 hours before its deadline, it becomes urgent when 3 hours remain.
-
-Urgent tasks appear above normal pending tasks.
+---
 
 ### Pending Tasks
 
-Tasks that are not completed and have not yet reached their urgency threshold remain in the Pending Tasks section.
+New tasks are added to the pending task list.
 
-Pending tasks are ordered according to their deadline.
+Pending tasks display useful information including:
+
+- Task title
+- Description
+- Deadline
+- Remaining time
+- Task status
+
+Users can manage each task directly from the task list.
+
+---
+
+### Urgent Tasks
+
+TaskFlow automatically identifies urgent tasks based on the amount of time remaining before their deadline.
+
+The urgency logic works as follows:
+
+- Tasks originally created with more than 24 hours remaining become urgent when 24 hours or less remain.
+- Tasks originally created with 24 hours or less remaining become urgent when 3 hours or less remain.
+
+Urgent tasks are moved into a dedicated section so important work is easier to identify.
+
+---
+
+### Automatic Expiration
+
+Tasks whose deadlines have already passed are automatically removed from the active task list.
+
+This prevents expired tasks from remaining indefinitely in the application.
+
+---
 
 ### Completed Tasks
 
-Users can mark tasks as completed.
+Users can mark pending tasks as completed.
 
-Completed tasks are moved to the Completed Tasks section.
+Completed tasks are moved into a separate completed section.
 
-Users can also restore completed tasks back to the active task list.
+Completed tasks can also be restored if necessary.
 
-### Edit Tasks
+---
 
-Users can edit existing tasks.
+### Task Editing
 
-The following information can be changed:
+Existing tasks can be edited.
+
+Users can update:
 
 - Task title
 - Task description
-- Deadline date
-- Deadline time
+- Deadline date and time
 
-The application validates edited deadlines to ensure they are in the future.
+Changes are saved back into browser storage.
+
+---
 
 ### Delete Tasks
 
-Users can delete individual tasks.
+Users can permanently delete individual tasks.
 
-Completed tasks can also be removed together using the Clear Completed button.
+The application also includes an option to clear completed tasks.
+
+---
 
 ### Task Statistics
 
-TaskFlow displays live statistics for:
+TaskFlow displays task statistics so users can quickly see the current state of their task list.
 
-- Total tasks
-- Urgent tasks
-- Pending tasks
-- Completed tasks
+Statistics include:
 
-The counters update automatically whenever tasks change.
+- Pending task count
+- Completed task count
 
-### Deadline Information
-
-Each task displays its deadline.
-
-Active tasks also display the amount of time remaining before the deadline.
+---
 
 ### Local Storage
 
-TaskFlow uses browser localStorage to preserve task data.
+Tasks are saved using browser `localStorage`.
 
-Tasks remain available after:
+This means task information remains available after:
 
 - Refreshing the page
-- Closing the browser tab
+- Closing the browser
 - Reopening the application
 
-No external database is required.
+No backend server is required.
 
-### Light and Dark Mode
+---
 
-TaskFlow includes both light and dark themes.
+### Productivity Quotes
 
-The selected theme is stored in localStorage so the preference remains after the browser is refreshed.
+TaskFlow includes a collection of productivity quotes.
 
-### Quote of the Day
+A quote is selected randomly when the application loads to provide additional motivation while managing tasks.
 
-TaskFlow contains a productivity quote section.
+---
 
-The application includes a collection of 50 short motivational and productivity quotes from well-known figures.
+### Theme Support
 
-A random quote is displayed whenever the page loads.
+The application supports:
+
+- Light mode
+- Dark mode
+
+The selected theme is saved using `localStorage`.
+
+---
 
 ### Responsive Design
 
-The application is designed to work across:
+TaskFlow is responsive and designed for:
 
 - Desktop computers
-- Laptops
 - Tablets
-- Mobile phones
+- Mobile devices
 
-### Accessibility
-
-TaskFlow includes:
-
-- Semantic HTML
-- Form labels
-- Accessible button labels
-- Keyboard focus indicators
-- Live validation messages
-- Keyboard-friendly controls
-- Reduced-motion support
+---
 
 ## Technologies Used
 
@@ -139,121 +158,224 @@ TaskFlow includes:
 - CSS3
 - JavaScript
 - Browser Local Storage
+- Native date and time input controls
 - Lucide Icons
+
+---
 
 ## Project Structure
 
 ```text
 WebDev-L2-TodoApp/
+├── screenshots/
+│   ├── todo-main.png
+│   ├── todo-urgent.png
+│   ├── todo-completed.png
+│   └── todo-dark.png
 ├── index.html
 ├── style.css
 ├── script.js
-├── README.md
-└── screenshots/
+└── README.md
 ```
 
-## How to Run the Project
+---
 
-Clone the repository:
+## How to Run
+
+Clone the OIBSIP repository:
 
 ```bash
 git clone https://github.com/HamphreyChinyerere/OIBSIP.git
 ```
 
-Navigate to the To-Do App folder:
+Navigate to the TaskFlow project:
 
 ```bash
 cd OIBSIP/WebDev-L2-TodoApp
 ```
 
-Open `index.html` in your browser.
+Open:
 
-You can also open the project using the Live Server extension in Visual Studio Code.
+```text
+index.html
+```
 
-## How to Use TaskFlow
+in your web browser.
+
+No backend server or package installation is required.
+
+---
+
+## How to Use
+
+### Create a Task
 
 1. Enter a task title.
-2. Enter a task description.
+2. Add an optional description.
 3. Select a deadline date and time.
-4. Click Add Task.
-5. View the task in the Pending Tasks section.
-6. Tasks approaching their deadline automatically move to the Urgent section.
-7. Click the check button to mark a task as completed.
-8. Click the pencil button to edit a task.
-9. Click the delete button to remove a task.
-10. Use the restore button to return a completed task to the active task list.
-11. Use Clear Completed to remove all completed tasks.
-12. Use the theme button to switch between light and dark mode.
+4. Add the task.
+
+The new task will appear in the appropriate task section.
+
+---
+
+### Complete a Task
+
+Select the complete action on a pending task.
+
+The task will move from the pending section to the completed section.
+
+---
+
+### Restore a Task
+
+Completed tasks can be restored to the active task list.
+
+---
+
+### Edit a Task
+
+Use the edit action to modify:
+
+- Title
+- Description
+- Deadline
+
+Save the updated information to apply the changes.
+
+---
+
+### Delete a Task
+
+Use the delete action to permanently remove a task.
+
+Completed tasks can also be removed together using the clear completed option.
+
+---
 
 ## Urgency Logic
 
-TaskFlow calculates urgency based on the amount of time originally available before the task deadline.
-
-### Tasks with more than 24 hours available
+TaskFlow determines urgency based on the amount of time the task had when it was originally created.
 
 ```text
-Deadline remaining <= 24 hours
-→ Urgent
+Task originally had more than 24 hours
+        ↓
+24 hours or less remain
+        ↓
+Task becomes urgent
 ```
 
-### Tasks with less than 24 hours available
+For shorter tasks:
 
 ```text
-Deadline remaining <= 3 hours
-→ Urgent
+Task originally had 24 hours or less
+        ↓
+3 hours or less remain
+        ↓
+Task becomes urgent
 ```
 
-### Expired Tasks
+This provides different warning periods for long-term and short-term tasks.
+
+---
+
+## Task Lifecycle
 
 ```text
-Current time >= Deadline
-→ Task removed
+Create Task
+   ↓
+Pending
+   ↓
+Deadline monitored
+   ↓
+Urgent when threshold is reached
+   ↓
+Complete Task
+   ↓
+Completed
 ```
 
-## Data Storage
+A completed task may also be:
 
-Task information is stored locally in the browser using:
+```text
+Completed
+   ↓
+Restore
+   ↓
+Pending
+```
+
+Expired tasks are automatically removed from active tasks.
+
+---
+
+## Local Storage
+
+TaskFlow uses the following browser storage keys:
 
 ```text
 taskflow-tasks
-```
-
-Theme preferences are stored using:
-
-```text
 taskflow-theme
 ```
 
-The application does not require a backend or external database.
+`taskflow-tasks` stores the task list.
+
+`taskflow-theme` stores the user's light or dark theme preference.
+
+---
 
 ## Screenshots
 
-Project screenshots will be stored inside the `screenshots` directory.
+### Main Task Interface
 
-Planned screenshots include:
+![TaskFlow Main Interface](screenshots/todo-main.png)
 
-- Main TaskFlow interface
-- Task creation form
-- Pending tasks
-- Urgent tasks
-- Completed tasks
-- Dark mode
-- Mobile responsive layout
+---
+
+### Urgent Tasks
+
+![TaskFlow Urgent Tasks](screenshots/todo-urgent.png)
+
+---
+
+### Completed Tasks
+
+![TaskFlow Completed Tasks](screenshots/todo-completed.png)
+
+---
+
+### Dark Mode
+
+![TaskFlow Dark Mode](screenshots/todo-dark.png)
+
+---
 
 ## Internship Task
 
-This project was created for the Oasis Infobyte Web Development and Designing Internship as part of the Level 2 To-Do Web App task.
+**Oasis Infobyte Web Development and Designing Internship**
+
+**Track:** Web Development and Designing
+
+**Level:** Level 2
+
+**Project:** To-Do Web App
+
+---
 
 ## Repository
 
-OIBSIP Repository:
+[View the OIBSIP Repository](https://github.com/HamphreyChinyerere/OIBSIP)
 
-https://github.com/HamphreyChinyerere/OIBSIP
+---
 
 ## Author
 
-Hamphrey Tanatswa Chinyerere
+**Hamphrey Tanatswa Chinyerere**
 
-GitHub:
+GitHub: [HamphreyChinyerere](https://github.com/HamphreyChinyerere)
 
-https://github.com/HamphreyChinyerere
+---
+
+## License
+
+This project was developed for educational and internship purposes as part of the Oasis Infobyte Internship Programme.
