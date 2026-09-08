@@ -5,6 +5,8 @@
     --text-secondary: #6d6d6d;
     --border: #ddddda;
     --accent: #171717;
+    --danger: #b42318;
+    --danger-background: #fff1f0;
     --radius-lg: 24px;
     --radius-md: 14px;
     --max-width: 760px;
@@ -17,6 +19,8 @@
     --text-secondary: #a0a0a0;
     --border: #343434;
     --accent: #ffffff;
+    --danger: #ff8178;
+    --danger-background: #331816;
 }
 
 * {
@@ -329,14 +333,20 @@ button {
     stroke-width: 1.8;
 }
 
-.complete-button:hover {
+.complete-button:hover,
+.restore-button:hover {
     background: var(--accent);
     color: var(--background);
 }
 
-.restore-button:hover {
-    background: var(--accent);
-    color: var(--background);
+.delete-button {
+    color: var(--text-secondary);
+}
+
+.delete-button:hover {
+    border-color: var(--danger);
+    background: var(--danger-background);
+    color: var(--danger);
 }
 
 .completed-task {
