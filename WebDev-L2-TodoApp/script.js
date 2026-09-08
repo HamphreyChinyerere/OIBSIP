@@ -52,6 +52,20 @@ function clearFormMessage() {
     formMessage.textContent = "";
 }
 
+function completeTask(taskId) {
+    const task = tasks.find(
+        (item) => item.id === taskId
+    );
+
+    if (!task) {
+        return;
+    }
+
+    task.completed = true;
+
+    renderPendingTasks();
+}
+
 function renderPendingTasks() {
     const pendingTasks = tasks.filter(
         (task) => !task.completed
@@ -70,7 +84,32 @@ function renderPendingTasks() {
         taskText.className = "task-text";
         taskText.textContent = task.text;
 
+        const taskActions = document.createElement("div");
+
+        taskActions.className = "task-actions";
+
+        const completeButton = document.createElement("button");
+
+        completeButton.type = "button";
+        completeButton.className = "task-action complete-button";
+        completeButton.setAttribute(
+            "aria-label",
+            `Mark ${task.text} as complete`
+        );
+
+        completeButton.innerHTML = `
+            <i data-lucide="check"></i>
+        `;
+
+        completeButton.addEventListener(
+            "click",
+            () => completeTask(task.id)
+        );
+
+        taskActions.appendChild(completeButton);
+
         taskItem.appendChild(taskText);
+        taskItem.appendChild(taskActions);
 
         pendingList.appendChild(taskItem);
     });
@@ -78,6 +117,8 @@ function renderPendingTasks() {
     pendingCount.textContent = pendingTasks.length;
 
     pendingEmpty.hidden = pendingTasks.length > 0;
+
+    lucide.createIcons();
 }
 
 function addTask(event) {
