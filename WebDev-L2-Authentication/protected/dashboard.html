@@ -9,18 +9,359 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>AuthFlow | Dashboard</title>
+    <meta
+        name="description"
+        content="LOCKR protected user dashboard."
+    >
+
+    <title>LOCKR | Dashboard</title>
 
     <link
         rel="stylesheet"
-        href="/style.css"
+        href="/dashboard.css"
     >
 </head>
 
 <body>
 
-    <main id="dashboard"></main>
+    <div class="dashboard-shell">
 
+        <header class="dashboard-header">
+
+            <a
+                class="dashboard-brand"
+                href="/dashboard"
+            >
+                LOCKR
+
+                <span>
+                    Authentication System
+                </span>
+            </a>
+
+            <div class="header-actions">
+
+                <button
+                    class="icon-button"
+                    id="dashboardThemeToggle"
+                    type="button"
+                    aria-label="Toggle theme"
+                >
+                    <i data-lucide="moon"></i>
+                </button>
+
+                <button
+                    class="logout-button"
+                    id="logoutButton"
+                    type="button"
+                >
+                    <i data-lucide="log-out"></i>
+
+                    <span>
+                        Logout
+                    </span>
+                </button>
+
+            </div>
+
+        </header>
+
+        <main class="dashboard-main">
+
+            <section class="welcome-section">
+
+                <div>
+
+                    <p class="eyebrow">
+                        Protected Dashboard
+                    </p>
+
+                    <h1>
+                        Welcome,
+                        <span id="dashboardUsername">
+                            User
+                        </span>
+                    </h1>
+
+                    <p class="welcome-description">
+                        Your LOCKR account is authenticated and this page is protected by your active session.
+                    </p>
+
+                </div>
+
+                <div
+                    class="session-badge"
+                    id="sessionStatus"
+                >
+                    <span class="status-dot"></span>
+
+                    Session Active
+                </div>
+
+            </section>
+
+            <section class="dashboard-grid">
+
+                <article class="profile-card dashboard-card">
+
+                    <div class="profile-header">
+
+                        <div
+                            class="profile-avatar"
+                            id="avatarInitials"
+                        >
+                            U
+                        </div>
+
+                        <div>
+
+                            <p class="card-label">
+                                Account
+                            </p>
+
+                            <h2 id="profileUsername">
+                                Loading account
+                            </h2>
+
+                            <p id="profileEmail">
+                                Loading email
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="profile-details">
+
+                        <div class="detail-row">
+
+                            <div class="detail-icon">
+                                <i data-lucide="user"></i>
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Username
+                                </span>
+
+                                <strong id="accountUsername">
+                                    Loading
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                        <div class="detail-row">
+
+                            <div class="detail-icon">
+                                <i data-lucide="mail"></i>
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Email address
+                                </span>
+
+                                <strong id="accountEmail">
+                                    Loading
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                        <div class="detail-row">
+
+                            <div class="detail-icon">
+                                <i data-lucide="fingerprint"></i>
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Account ID
+                                </span>
+
+                                <strong id="accountId">
+                                    Loading
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                <article class="security-card dashboard-card">
+
+                    <div class="card-heading">
+
+                        <div>
+
+                            <p class="card-label">
+                                Security
+                            </p>
+
+                            <h2>
+                                Account protection
+                            </h2>
+
+                        </div>
+
+                        <div class="heading-icon">
+                            <i data-lucide="shield-check"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="security-list">
+
+                        <div class="security-item">
+
+                            <i data-lucide="key-round"></i>
+
+                            <div>
+
+                                <strong>
+                                    Password protected
+                                </strong>
+
+                                <span>
+                                    Your password is stored as a secure bcrypt hash.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="security-item">
+
+                            <i data-lucide="cookie"></i>
+
+                            <div>
+
+                                <strong>
+                                    Secure session
+                                </strong>
+
+                                <span>
+                                    Your authenticated session is managed by the server.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="security-item">
+
+                            <i data-lucide="lock-keyhole"></i>
+
+                            <div>
+
+                                <strong>
+                                    Protected route
+                                </strong>
+
+                                <span>
+                                    This dashboard cannot be accessed without authentication.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                <article class="session-card dashboard-card">
+
+                    <div class="card-heading">
+
+                        <div>
+
+                            <p class="card-label">
+                                Session
+                            </p>
+
+                            <h2>
+                                Current access
+                            </h2>
+
+                        </div>
+
+                        <div class="heading-icon">
+                            <i data-lucide="activity"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="session-information">
+
+                        <div>
+
+                            <span>
+                                Authentication
+                            </span>
+
+                            <strong>
+                                Verified
+                            </strong>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Logged in
+                            </span>
+
+                            <strong id="loggedInAt">
+                                Loading
+                            </strong>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Access level
+                            </span>
+
+                            <strong>
+                                Protected User
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+        </main>
+
+        <footer class="dashboard-footer">
+
+            <p>
+                LOCKR Authentication System
+            </p>
+
+            <p>
+                OIBSIP Web Development Level 2
+            </p>
+
+        </footer>
+
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script src="/dashboard.js"></script>
 
 </body>
