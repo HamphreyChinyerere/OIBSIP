@@ -1,39 +1,63 @@
 const dashboardUsername =
-    document.getElementById("dashboardUsername");
+    document.getElementById(
+        "dashboardUsername"
+    );
 
 const profileUsername =
-    document.getElementById("profileUsername");
+    document.getElementById(
+        "profileUsername"
+    );
 
 const profileEmail =
-    document.getElementById("profileEmail");
+    document.getElementById(
+        "profileEmail"
+    );
 
 const accountUsername =
-    document.getElementById("accountUsername");
+    document.getElementById(
+        "accountUsername"
+    );
 
 const accountEmail =
-    document.getElementById("accountEmail");
+    document.getElementById(
+        "accountEmail"
+    );
 
 const accountId =
-    document.getElementById("accountId");
+    document.getElementById(
+        "accountId"
+    );
 
 const avatarInitials =
-    document.getElementById("avatarInitials");
+    document.getElementById(
+        "avatarInitials"
+    );
 
 const loggedInAt =
-    document.getElementById("loggedInAt");
+    document.getElementById(
+        "loggedInAt"
+    );
 
 const sessionStatus =
-    document.getElementById("sessionStatus");
+    document.getElementById(
+        "sessionStatus"
+    );
 
 const dashboardThemeToggle =
-    document.getElementById("dashboardThemeToggle");
+    document.getElementById(
+        "dashboardThemeToggle"
+    );
 
 const logoutButton =
-    document.getElementById("logoutButton");
+    document.getElementById(
+        "logoutButton"
+    );
 
-const THEME_STORAGE_KEY = "lockr-theme";
+const THEME_STORAGE_KEY =
+    "lockr-theme";
 
 let currentTheme = "light";
+let logoutLoading = false;
 
 function updateIcons() {
     if (window.lucide) {
@@ -60,7 +84,9 @@ function getInitials(username) {
 
     return (
         parts[0][0] +
-        parts[parts.length - 1][0]
+        parts[
+            parts.length - 1
+        ][0]
     ).toUpperCase();
 }
 
@@ -90,8 +116,7 @@ function formatLoginTime(value) {
 }
 
 function displayUserSession(data) {
-    const user =
-        data.user;
+    const user = data.user;
 
     dashboardUsername.textContent =
         user.username;
@@ -142,7 +167,9 @@ async function loadSession() {
             );
 
         if (!response.ok) {
-            window.location.replace("/");
+            window.location.replace(
+                "/"
+            );
             return;
         }
 
@@ -153,7 +180,9 @@ async function loadSession() {
             !data.authenticated ||
             !data.user
         ) {
-            window.location.replace("/");
+            window.location.replace(
+                "/"
+            );
             return;
         }
 
@@ -253,6 +282,59 @@ function toggleTheme() {
     applyTheme();
 }
 
+function setLogoutLoading(
+    loading
+) {
+    logoutLoading = loading;
+
+    logoutButton.disabled =
+        loading;
+
+    if (loading) {
+        logoutButton.innerHTML = `
+            <span>Logging out...</span>
+        `;
+    } else {
+        logoutButton.innerHTML = `
+            <i data-lucide="log-out"></i>
+            <span>Logout</span>
+        `;
+    }
+
+    updateIcons();
+}
+
+async function handleLogout() {
+    if (logoutLoading) {
+        return;
+    }
+
+    setLogoutLoading(true);
+
+    try {
+        const response =
+            await fetch(
+                "/api/logout",
+                {
+                    method: "POST",
+                    headers: {
+                        "Accept":
+                            "application/json"
+                    }
+                }
+            );
+
+        if (!response.ok) {
+            setLogoutLoading(false);
+            return;
+        }
+
+        window.location.replace("/");
+    } catch {
+        setLogoutLoading(false);
+    }
+}
+
 dashboardThemeToggle.addEventListener(
     "click",
     toggleTheme
@@ -260,14 +342,7 @@ dashboardThemeToggle.addEventListener(
 
 logoutButton.addEventListener(
     "click",
-    () => {
-        logoutButton.disabled =
-            true;
-
-        logoutButton.innerHTML = `
-            <span>Logging out...</span>
-        `;
-    }
+    handleLogout
 );
 
 loadTheme();
