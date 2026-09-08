@@ -13,7 +13,6 @@
     --danger: #b42318;
     --danger-soft: #fff1f0;
     --radius-xl: 28px;
-    --radius-lg: 18px;
     --radius-md: 12px;
 }
 
@@ -72,98 +71,53 @@ input:focus-visible {
 .auth-page {
     min-height: 100vh;
     display: grid;
-    grid-template-columns: minmax(320px, 0.9fr) minmax(500px, 1.1fr);
+    grid-template-columns: minmax(360px, 0.95fr) minmax(500px, 1.05fr);
 }
 
-.auth-intro {
+.auth-visual {
+    position: relative;
     min-height: 100vh;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    align-items: flex-end;
     padding: 3rem;
-    background: var(--purple);
+    overflow: hidden;
+    background-image: url("/images/lockr-auth-bg.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.visual-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(12, 4, 24, 0.08) 0%,
+            rgba(12, 4, 24, 0.2) 45%,
+            rgba(12, 4, 24, 0.85) 100%
+        );
+}
+
+.lockr-brand {
+    position: relative;
+    z-index: 1;
     color: #ffffff;
 }
 
-.brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
+.lockr-brand h1 {
+    font-size: clamp(4rem, 8vw, 7.5rem);
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -0.075em;
 }
 
-.brand-mark {
-    width: 42px;
-    height: 42px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.12);
-    font-size: 1rem;
-    font-weight: 800;
-}
-
-.brand-name {
-    font-size: 1rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-}
-
-.intro-content {
-    max-width: 560px;
-    padding: 3rem 0;
-}
-
-.intro-label {
-    margin-bottom: 0.85rem;
-    color: rgba(255, 255, 255, 0.72);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.14rem;
+.lockr-brand p {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.18rem;
     text-transform: uppercase;
-}
-
-.intro-content h1 {
-    max-width: 520px;
-    margin-bottom: 1rem;
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
-    font-weight: 800;
-    line-height: 0.98;
-    letter-spacing: -0.055em;
-}
-
-.intro-description {
-    max-width: 470px;
-    color: rgba(255, 255, 255, 0.75);
-    font-size: 0.98rem;
-}
-
-.feature-list {
-    display: grid;
-    gap: 0.85rem;
-    margin-top: 2.5rem;
-}
-
-.feature-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 0.84rem;
-}
-
-.feature-item svg {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-    stroke-width: 1.8;
-}
-
-.intro-footer {
-    color: rgba(255, 255, 255, 0.58);
-    font-size: 0.7rem;
-    letter-spacing: 0.04em;
 }
 
 .auth-panel {
@@ -475,17 +429,14 @@ input:focus-visible {
         grid-template-columns: 1fr;
     }
 
-    .auth-intro {
-        min-height: auto;
+    .auth-visual {
+        min-height: 440px;
         padding: 2rem;
+        background-position: center;
     }
 
-    .intro-content {
-        padding: 4rem 0;
-    }
-
-    .intro-content h1 {
-        max-width: 620px;
+    .lockr-brand h1 {
+        font-size: clamp(4rem, 14vw, 6rem);
     }
 
     .auth-panel {
@@ -495,20 +446,19 @@ input:focus-visible {
 }
 
 @media (max-width: 600px) {
-    .auth-intro {
+    .auth-visual {
+        min-height: 360px;
         padding: 1.5rem;
     }
 
-    .intro-content {
-        padding: 3rem 0;
+    .lockr-brand h1 {
+        font-size: 4rem;
     }
 
-    .intro-content h1 {
-        font-size: 2.7rem;
-    }
-
-    .feature-list {
-        margin-top: 2rem;
+    .lockr-brand p {
+        margin-top: 0.75rem;
+        font-size: 0.7rem;
+        letter-spacing: 0.12rem;
     }
 
     .auth-panel {
@@ -540,12 +490,12 @@ input:focus-visible {
 }
 
 @media (max-width: 420px) {
-    .intro-content h1 {
-        font-size: 2.35rem;
+    .auth-visual {
+        min-height: 300px;
     }
 
-    .intro-description {
-        font-size: 0.9rem;
+    .lockr-brand h1 {
+        font-size: 3.3rem;
     }
 
     .auth-card {
